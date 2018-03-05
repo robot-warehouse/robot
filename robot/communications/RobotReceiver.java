@@ -18,6 +18,7 @@ public class RobotReceiver extends Thread {
 	private boolean jobCancelled;
 	private DataInputStream fromServer;
 
+
 	public RobotReceiver(DataInputStream fromServer) {
 		orders = new ArrayList<Integer>();
 		this.fromServer = fromServer;

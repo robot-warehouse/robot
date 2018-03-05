@@ -14,6 +14,7 @@ public class RobotTest {
 				{
 					System.out.println("Order " + i + ": " + orders.get(i));
 					Thread.sleep(500);
+					manager.sendPosition(i, i + 1);
 				}
 			}
 		}

@@ -9,11 +9,12 @@ import java.util.concurrent.PriorityBlockingQueue;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
 
-public class RobotSender {
+public class RobotSender extends Thread {
 	private DataOutputStream toServer;
 	public RobotSender(DataOutputStream toServer) {
 		this.toServer = toServer;
 	}
+	
 	/**
 	 * Send position of robot to the server
 	 */
@@ -23,14 +24,14 @@ public class RobotSender {
 			toServer.writeUTF(Integer.toString(x));
 			toServer.writeUTF(Integer.toString(y));
 			toServer.flush();
-			System.out.println("Sent (" + x + "," + y);
+			System.out.println("Sent (" + x + "," + y + ")");
 		}
 		catch(IOException e) {
 			System.err.println("Something went wrong with the server");
 			e.printStackTrace();
 		}
 		catch(Exception e) {
-			System.err.println("Exception");
+			System.err.println("General exception");
 		}
 		
 	}
