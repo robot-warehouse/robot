@@ -1,14 +1,17 @@
-package rp.assignments.team.warehouse.robot.motioncontrol;
+package motioncontrol;
 
 import java.util.Queue;
 
-import rp.config.RobotConfigs;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
+import motioncontrol.Calibrate;
+import rp.config.RobotConfigs;
 
 public class MotionControl {
-
-	public MotionControl(int average) {
+	
+	int average = Calibrate.average;
+	
+	public MotionControl() {
 		Queue<String> path = new Queue<String>();
 		Behavior lineFollower = new GForwardLine(RobotConfigs.EXPRESS_BOT, average);
 		Behavior rotateC = new GRotateMotorC(RobotConfigs.EXPRESS_BOT, average);

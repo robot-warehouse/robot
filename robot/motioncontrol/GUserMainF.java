@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.robot.motioncontrol;
+package motioncontrol;
 
 import java.util.Queue;
 import lejos.nxt.Button;
@@ -12,7 +12,7 @@ import rp.config.RobotConfigs;
 
 public class GUserMainF {
 
-	public static void main(String[] args) {
+	public static void main (String[] args) {
 		// TODO Auto-generated method stub
 		Queue<String> path = new Queue<String>();
 		System.out.println("Select path");
@@ -36,7 +36,7 @@ public class GUserMainF {
 				Button.waitForAnyPress();
 				white = lightSensor1.getNormalizedLightValue();
 				white2 = lightSensor2.getNormalizedLightValue();
-				white3 = lightSensor2.getNormalizedLightValue();
+				white3 = lightSensor3.getNormalizedLightValue();
 				int averageWhite = (white + white2 + white3) / 3;
 				System.out.println("White colour: " + averageWhite);
 				System.out.println("Dark colour");
@@ -45,20 +45,20 @@ public class GUserMainF {
 				lightSensor2.calibrateLow();
 				black = lightSensor1.getNormalizedLightValue();
 				black2 = lightSensor2.getNormalizedLightValue();
-				black3 = lightSensor2.getNormalizedLightValue();
+				black3 = lightSensor3.getNormalizedLightValue();
 				int averageBlack = (black + black2+ black3) / 3;
 				System.out.println("Black colour: " + averageBlack);
 
 				int average = (averageBlack + averageWhite) / 2;
 				Button.waitForAnyPress();
 
-//				Behavior lineFollower = new GForwardLine(RobotConfigs.EXPRESS_BOT, average);
-//				Behavior rotateC = new GRotateMotorC(RobotConfigs.EXPRESS_BOT, average);
-//				Behavior rotateA = new GRotateMotorA(RobotConfigs.EXPRESS_BOT, average);
-//				Behavior conjunction = new GUserConjunct(RobotConfigs.EXPRESS_BOT, average, path);
-//				Behavior[] bArray = {conjunction, lineFollower,rotateC, rotateA};
-//				Arbitrator arby = new Arbitrator(bArray);
-//				arby.start();  add this to new Motion control class
+				Behavior lineFollower = new GForwardLine(RobotConfigs.EXPRESS_BOT, average);
+				Behavior rotateC = new GRotateMotorC(RobotConfigs.EXPRESS_BOT, average);
+				Behavior rotateA = new GRotateMotorA(RobotConfigs.EXPRESS_BOT, average);
+				Behavior conjunction = new GUserConjunct(RobotConfigs.EXPRESS_BOT, average, path);
+				Behavior[] bArray = {conjunction, lineFollower,rotateC, rotateA};
+				Arbitrator arby = new Arbitrator(bArray);
+				arby.start();
 
 			}
 		});
@@ -97,5 +97,4 @@ public class GUserMainF {
 			Delay.msDelay(100);
 		}
 	}
-
 }

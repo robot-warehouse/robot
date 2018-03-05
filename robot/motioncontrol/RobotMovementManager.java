@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.robot.motioncontrol;
+package motioncontrol;
 
 
 import java.util.ArrayList;

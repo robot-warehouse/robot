@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.robot.motioncontrol;
+package motioncontrol;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
@@ -32,7 +32,7 @@ public class GRotateMotorC implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-
+		//Delay.msDelay(100);
 		if (lightSensor1.getNormalizedLightValue() < average && lightSensor2.getNormalizedLightValue() > average) {
 			// TODO Auto-generated method stub
 			return true;

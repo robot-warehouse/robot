@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.robot.motioncontrol;
+package motioncontrol;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
@@ -43,7 +43,7 @@ public class GUserConjunct implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-
+		//Delay.msDelay(100);
 		if ((lightSensor1.getNormalizedLightValue() <= average && lightSensor2.getNormalizedLightValue() <= average && lightSensor3.getNormalizedLightValue() <= average)){
 			return true;
 		}
