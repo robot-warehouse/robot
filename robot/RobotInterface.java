@@ -1,65 +1,105 @@
-package rp.assignments.team.warehouse.robot;
+package rp.assignments.team.warehouse.robot.gui;
+
+import java.io.PrintStream;
 
 import lejos.nxt.Button;
-import lejos.nxt.LightSensor;
-import lejos.nxt.SensorPort;
+import lejos.nxt.LCD;
+import lejos.nxt.comm.RConsole;
+import rp.assignments.team.warehouse.robot.motioncontrol.RobotMovementManager;;
 
-public class RobotInterface {
 
-	public RobotInterface() {
-		// TODO Auto-generated constructor stub
+/**
+ * Robot Interface
+ * @author Obaid Ur-Rahmaan
+ *
+ */
+public class RobotInterface implements Runnable {
+	private int pickedInLocation;
+	private RobotMovementManager movementManager;
+
+	public RobotInterface(RobotMovementManager movementManager) {
+		this.pickedInLocation = 0;
+		this.movementManager = movementManager;
 	}
-	
-	public void pickItem(int numberOfItems){
-		int i=0;
-		System.out.println("Select one item to pick");
-		while(!Button.ESCAPE.isDown())
-		Button.waitForAnyPress();
-		System.out.println("You selected one more item");
-		i++;
-		if(i > numberOfItems){
-			i--;
-			System.out.println("Too many items are selected");
+
+	@Override
+	public void run() {
+		while (true) {
+			if (movementManager.getIsAtPickupLocation()) {
+				if (movementManager.getNumberOfPicks() > 0) {
+					System.out.println(
+							"Robot arrived to pick up location. Please pick" + movementManager.getNumberOfPicks());
+					while (!movementManager.getIsRouteComplete()) {
+						int i = Button.waitForAnyPress();
+						if (i == Button.ID_ENTER) {
+							if (pickedInLocation < movementManager.getNumberOfPicks()) {
+								LCD.clear();
+								System.out.println("Incorrect amount");
+								System.out.println("Picked: " + pickedInLocation);
+								System.out.println("Please pick "
+										+ (movementManager.getNumberOfPicks() - pickedInLocation) + " more items.");
+							} else if (pickedInLocation > movementManager.getNumberOfPicks()) {
+								LCD.clear();
+								System.out.println("Incorrect amount");
+								System.out.println("Picked: " + pickedInLocation);
+								System.out.println("Please pick "
+										+ (pickedInLocation - movementManager.getNumberOfPicks()) + " less items.");
+							} else if (pickedInLocation == movementManager.getNumberOfPicks()) {
+								LCD.clear();
+								System.out.println("Right amount picked.");
+								System.out.println("To the next pick!");
+								pickedInLocation = 0;
+								movementManager.setIsAtPickupLocation(false);
+								movementManager.setIsRouteComplete(true);
+							}
+						}
+						if (i == Button.ID_LEFT) {
+							if (pickedInLocation > 0) {
+								pickedInLocation--;
+							}
+							LCD.clear();
+							System.out.println("Picking:" + pickedInLocation);
+						}
+						if (i == Button.ID_RIGHT) {
+							pickedInLocation++;
+							LCD.clear();
+							System.out.println("Picking:" + pickedInLocation);
+						}
+					}
+				} else if (movementManager.getNumberOfPicks() == -1) {
+					System.out.println("Robot arrived to drop off location");
+					System.out.println("Please press ENTER to unload your items");
+					while (!movementManager.getIsRouteComplete()) {
+						int i = Button.waitForAnyPress();
+						if (i == Button.ID_ENTER) {
+							LCD.clear();
+							System.out.println("Items are unloaded.");
+							System.out.println("To the next pick!");
+							pickedInLocation = 0;
+							movementManager.setIsAtPickupLocation(false);
+							movementManager.setIsRouteComplete(true);
+						}
+					}
+				} else if (movementManager.getNumberOfPicks() == 0) {
+					LCD.clear();
+					System.out.println("Waiting for other robot");
+					movementManager.setIsAtPickupLocation(false);
+					movementManager.setIsRouteComplete(true);
+				}
+			}
 		}
-		
-	}
-	
-	public void dromItem(){
-		System.out.println("Press to drop all the items");
-		Button.waitForAnyPress();
-		System.out.println("All items are delivered");
-	}
-	
-	
-	public void cancellation(){
-		System.out.println("Task was cancelled");
 	}
 
-	
-	public void calibration(){
-		LightSensor lightSensor1 = new LightSensor(SensorPort.S1);
-		LightSensor lightSensor2 = new LightSensor(SensorPort.S4);
-		LightSensor lightSensor3 = new LightSensor(SensorPort.S2);
-		int white, black, white2, black2, white3, black3 = 0;
-		Button.waitForAnyPress();
-		System.out.println("Light colour");
-		Button.waitForAnyPress();
-		white = lightSensor1.getNormalizedLightValue();
-		white2 = lightSensor2.getNormalizedLightValue();
-		white3 = lightSensor3.getNormalizedLightValue();
-		int averageWhite = (white + white2 + white3) / 3;
-		System.out.println("White colour: " + averageWhite);
-		System.out.println("Dark colour");
-		Button.waitForAnyPress();
-		lightSensor1.calibrateLow();
-		lightSensor2.calibrateLow();
-		black = lightSensor1.getNormalizedLightValue();
-		black2 = lightSensor2.getNormalizedLightValue();
-		black3 = lightSensor3.getNormalizedLightValue();
-		int averageBlack = (black + black2+ black3) / 3;
-		System.out.println("Black colour: " + averageBlack);
-
-		int average = (averageBlack + averageWhite) / 2;
-		Button.waitForAnyPress();
+	protected static void redirectOutput(boolean _useBluetooth) {
+		if (!RConsole.isOpen()) {
+			if (_useBluetooth) {
+				RConsole.openBluetooth(0);
+			} else {
+				RConsole.openUSB(0);
+			}
+		}
+		PrintStream ps = RConsole.getPrintStream();
+		System.setOut(ps);
+		System.setErr(ps);
 	}
 }
