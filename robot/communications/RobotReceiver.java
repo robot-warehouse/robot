@@ -13,46 +13,57 @@ import rp.assignments.team.warehouse.shared.communications.Command;
  */
 public class RobotReceiver extends Thread {
 
-	//temporary until type of orders known
+	// temporary until type of orders known
 	private List<Integer> orders;
 	private boolean jobCancelled;
 	private DataInputStream fromServer;
+
 	public RobotReceiver(DataInputStream fromServer) {
 		orders = new ArrayList<Integer>();
-		fromServer = new DataInputStream(fromServer);
+		this.fromServer = fromServer;
 	}
-	
+
 	@Override
 	public void run() {
-		while(true) {
+		while (true) {
 			try {
-				Command command = Command.valueOf(fromServer.readUTF());
-				switch(command) {
+				String s = fromServer.readUTF();
+				Command command = Command.strToCommand(s);
+				switch (command) {
 				case CANCEL:
 					jobCancelled = true;
+					break;
 				case SEND_ORDERS:
-					//remove previous
-					orders.clear();
-					//add orders
+					orders.clear(); //remove previous orders
 					String val = fromServer.readUTF();
-					while(!Command.END.toString().equals(val)) {
+					int i = 0;
+					while (!val.equals("-1")) {
+						i++;
 						orders.add(Integer.parseInt(val));
 						val = fromServer.readUTF();
 					}
+					System.out.println("Finished ");
+					break;
+				default:
+					System.out.println("Unrecognised command");
+					break;
 				}
-			}
-			catch(IOException e) {
+
+			} catch (IOException e) {
 				System.err.println("Something went wrong with the server");
 				e.printStackTrace();
+				break;
 			}
-			catch(IllegalArgumentException e) {
-				System.err.println("Unrecognised command sent to server");
-			}
+
 		}
 	}
-	
-	public List<Integer> getOrders(){
+
+	public List<Integer> getOrders() {
 		return orders;
+	}
+
+	public boolean isCancelled() {
+		return jobCancelled;
 	}
 
 }
