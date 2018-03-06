@@ -11,6 +11,9 @@ import lejos.util.Delay;
 import rp.config.RobotConfigs;
 
 public class GUserMainF {
+	
+	
+	public static int counter =0;
 
 	public static void main (String[] args) {
 		// TODO Auto-generated method stub
@@ -30,6 +33,8 @@ public class GUserMainF {
 				LightSensor lightSensor1 = new LightSensor(SensorPort.S1);
 				LightSensor lightSensor2 = new LightSensor(SensorPort.S4);
 				LightSensor lightSensor3 = new LightSensor(SensorPort.S2);
+				
+								
 				int white, black, white2, black2, white3, black3 = 0;
 				Button.waitForAnyPress();
 				System.out.println("Light colour");
@@ -53,9 +58,9 @@ public class GUserMainF {
 				Button.waitForAnyPress();
 
 				Behavior lineFollower = new GForwardLine(RobotConfigs.EXPRESS_BOT, average);
-				Behavior rotateC = new GRotateMotorC(RobotConfigs.EXPRESS_BOT, average);
-				Behavior rotateA = new GRotateMotorA(RobotConfigs.EXPRESS_BOT, average);
-				Behavior conjunction = new GUserConjunct(RobotConfigs.EXPRESS_BOT, average, path);
+				Behavior rotateC = new GRotateMotorC(RobotConfigs.EXPRESS_BOT, average,counter);
+				Behavior rotateA = new GRotateMotorA(RobotConfigs.EXPRESS_BOT, average,counter);
+				Behavior conjunction = new GUserConjunct(RobotConfigs.EXPRESS_BOT, average, path,counter);
 				Behavior[] bArray = {conjunction, lineFollower,rotateC, rotateA};
 				Arbitrator arby = new Arbitrator(bArray);
 				arby.start();

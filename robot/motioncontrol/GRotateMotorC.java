@@ -14,13 +14,15 @@ public class GRotateMotorC implements Behavior {
 	private WheeledRobotSystem robot;
 	private DifferentialPilot pilot;
 	protected int average;
+	
+	public int counter;
 
 	protected LightSensor lightSensor1;
 	protected LightSensor lightSensor2;
 
 	protected final double MAXSPEED;
 
-	public GRotateMotorC(WheeledRobotConfiguration robot, int average) {
+	public GRotateMotorC(WheeledRobotConfiguration robot, int average, int counter) {
 		this.robot = new WheeledRobotSystem(robot);
 		pilot = this.robot.getPilot();
 		MAXSPEED = pilot.getMaxTravelSpeed();
@@ -28,12 +30,13 @@ public class GRotateMotorC implements Behavior {
 		this.average = average;
 		lightSensor1 = new LightSensor(SensorPort.S1);
 		lightSensor2 = new LightSensor(SensorPort.S4);
+		this.counter = counter;
 	}
 
 	@Override
 	public boolean takeControl() {
 		//Delay.msDelay(100);
-		if (lightSensor1.getNormalizedLightValue() < average && lightSensor2.getNormalizedLightValue() > average) {
+		if (lightSensor1.getNormalizedLightValue() < average && lightSensor2.getNormalizedLightValue() > average && counter <1) {
 			// TODO Auto-generated method stub
 			return true;
 		} else {
@@ -46,7 +49,8 @@ public class GRotateMotorC implements Behavior {
 		// TODO Auto-generated method stub
 		Delay.msDelay(50);
 		Motor.A.rotate(-60);
-		System.out.println("Is it executing MotorC?");
+		//System.out.println("Is it executing MotorC?");
+		counter++;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.shared.communications;
+package shared.communications;
 
 /**
  * Type of command being sent to/from robot
