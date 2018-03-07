@@ -1,24 +1,35 @@
 package motioncontrol;
 
-import java.util.Queue;
+import motioncontrol.LineFollow;
+import lejos.nxt.Button;
+import lejos.nxt.Motor;
+import lejos.nxt.SensorPort;
+import lejos.nxt.SensorPortListener;
+import lejos.robotics.navigation.DifferentialPilot;
+import rp.systems.RobotProgrammingDemo;
 
-import lejos.robotics.subsumption.Arbitrator;
-import lejos.robotics.subsumption.Behavior;
-import motioncontrol.Calibrate;
-import rp.config.RobotConfigs;
+public class MotionControl extends RobotProgrammingDemo implements SensorPortListener {
 
-public class MotionControl {
-	
-	int average = Calibrate.average;
-	
+	private static DifferentialPilot DP;
+		
 	public MotionControl() {
-		Queue<String> path = new Queue<String>();
-		Behavior lineFollower = new GForwardLine(RobotConfigs.EXPRESS_BOT, average);
-		Behavior rotateC = new GRotateMotorC(RobotConfigs.EXPRESS_BOT, average);
-		Behavior rotateA = new GRotateMotorA(RobotConfigs.EXPRESS_BOT, average);
-		Behavior conjunction = new GUserConjunct(RobotConfigs.EXPRESS_BOT, average, path);
-		Behavior[] bArray = {conjunction, lineFollower,rotateC, rotateA};
-		Arbitrator arby = new Arbitrator(bArray);
-		arby.start();
+		
+	}
+
+	@Override
+	public void run() {
+		
+	}
+
+	@Override
+	public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {
+		
+	}
+	
+	public static void main (String[] args) throws InterruptedException {
+		Button.waitForAnyPress();
+		DP = new DifferentialPilot(5.5f, 12.4f, Motor.A, Motor.B);
+		RobotProgrammingDemo lf = new LineFollow(DP, SensorPort.S1, SensorPort.S2, SensorPort.S4);
+		lf.run();
 	}
 }
