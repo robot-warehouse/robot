@@ -1,11 +1,14 @@
-package rp.assignments.team.warehouse.robot.gui;
+package robot.gui;
 
 import java.io.PrintStream;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
+import lejos.nxt.LightSensor;
+import lejos.nxt.SensorPort;
 import lejos.nxt.comm.RConsole;
-import rp.assignments.team.warehouse.robot.motioncontrol.RobotMovementManager;;
+import motioncontrol.Calibrate;
+import motioncontrol.RobotMovementManager;;
 
 
 /**
@@ -16,6 +19,7 @@ import rp.assignments.team.warehouse.robot.motioncontrol.RobotMovementManager;;
 public class RobotInterface implements Runnable {
 	private int pickedInLocation;
 	private RobotMovementManager movementManager;
+	public static int average;
 
 	public RobotInterface(RobotMovementManager movementManager) {
 		this.pickedInLocation = 0;
@@ -24,6 +28,7 @@ public class RobotInterface implements Runnable {
 
 	@Override
 	public void run() {
+		Calibrate.calibrate();
 		while (true) {
 			if (movementManager.getIsAtPickupLocation()) {
 				if (movementManager.getNumberOfPicks() > 0) {

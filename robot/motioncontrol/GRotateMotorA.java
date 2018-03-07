@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.robot.motioncontrol;
+package motioncontrol;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
@@ -33,7 +33,8 @@ public class GRotateMotorA implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		if (lightSensor2.getNormalizedLightValue() < average && lightSensor1.getNormalizedLightValue() > average) {
+		//Delay.msDelay(100);
+		if (lightSensor2.getNormalizedLightValue() < average && lightSensor1.getNormalizedLightValue() > average + 70) {
 			// TODO Auto-generated method stub
 			return true;
 		} else {
@@ -46,6 +47,7 @@ public class GRotateMotorA implements Behavior {
 		// TODO Auto-generated method stub
 		Delay.msDelay(50);
 		Motor.C.rotate(-60);
+		System.out.println("Is it executing MotorA?");
 	}
 
 	@Override
