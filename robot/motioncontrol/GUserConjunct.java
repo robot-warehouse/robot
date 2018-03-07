@@ -16,8 +16,6 @@ public class GUserConjunct implements Behavior {
 	private WheeledRobotSystem robot;
 	private DifferentialPilot pilot;
 	protected int average;
-	
-	public int counter;
 
 	private int firstRotation = 64;
 	private int secondRotation = -64;
@@ -30,7 +28,7 @@ public class GUserConjunct implements Behavior {
 
 	protected final double MAXSPEED;
 
-	public GUserConjunct(WheeledRobotConfiguration robot, int average, Queue<String> q, int counter) {
+	public GUserConjunct(WheeledRobotConfiguration robot, int average, Queue<String> q) {
 		// TODO Auto-generated constructor stub
 		this.robot = new WheeledRobotSystem(robot);
 		pilot = this.robot.getPilot();
@@ -41,13 +39,14 @@ public class GUserConjunct implements Behavior {
 		lightSensor3 = new LightSensor(SensorPort.S2);
 		this.average = average;
 		this.path = q;
-		this.counter = counter;
 	}
 
 	@Override
 	public boolean takeControl() {
 		//Delay.msDelay(100);
-		if ((lightSensor1.getNormalizedLightValue() <= average && lightSensor2.getNormalizedLightValue() <= average && counter >=1) ){
+		if ((lightSensor1.getNormalizedLightValue() <= average && lightSensor2.getNormalizedLightValue() <= average&& lightSensor3.getNormalizedLightValue() <= average)||
+				(lightSensor1.getNormalizedLightValue() <= average && lightSensor2.getNormalizedLightValue() >= average&& lightSensor3.getNormalizedLightValue() <= average&& lightSensor2.getNormalizedLightValue() < average + 70) ||
+				(lightSensor2.getNormalizedLightValue() <= average && lightSensor1.getNormalizedLightValue() >= average&& lightSensor3.getNormalizedLightValue() <= average && lightSensor1.getNormalizedLightValue() < average + 70)){
 			return true;
 		}
 

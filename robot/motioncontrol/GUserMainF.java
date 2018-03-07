@@ -48,6 +48,7 @@ public class GUserMainF {
 				Button.waitForAnyPress();
 				lightSensor1.calibrateLow();
 				lightSensor2.calibrateLow();
+				lightSensor3.calibrateLow();
 				black = lightSensor1.getNormalizedLightValue();
 				black2 = lightSensor2.getNormalizedLightValue();
 				black3 = lightSensor3.getNormalizedLightValue();
@@ -58,9 +59,9 @@ public class GUserMainF {
 				Button.waitForAnyPress();
 
 				Behavior lineFollower = new GForwardLine(RobotConfigs.EXPRESS_BOT, average);
-				Behavior rotateC = new GRotateMotorC(RobotConfigs.EXPRESS_BOT, average,counter);
-				Behavior rotateA = new GRotateMotorA(RobotConfigs.EXPRESS_BOT, average,counter);
-				Behavior conjunction = new GUserConjunct(RobotConfigs.EXPRESS_BOT, average, path,counter);
+				Behavior rotateC = new GRotateMotorC(RobotConfigs.EXPRESS_BOT, average);
+				Behavior rotateA = new GRotateMotorA(RobotConfigs.EXPRESS_BOT, average);
+				Behavior conjunction = new GUserConjunct(RobotConfigs.EXPRESS_BOT, average, path);
 				Behavior[] bArray = {conjunction, lineFollower,rotateC, rotateA};
 				Arbitrator arby = new Arbitrator(bArray);
 				arby.start();

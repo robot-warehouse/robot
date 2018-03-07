@@ -24,7 +24,7 @@ public class GForwardLine implements Behavior {
 		this.robot = new WheeledRobotSystem(robot);
 		pilot = this.robot.getPilot();
 		MAXSPEED = pilot.getMaxTravelSpeed();
-		pilot.setTravelSpeed(MAXSPEED * 0.6);
+		pilot.setTravelSpeed(MAXSPEED * 0.4);
 		lightSensor1 = new LightSensor(SensorPort.S1);
 		lightSensor2 = new LightSensor(SensorPort.S4);
 		this.average = average;
@@ -35,7 +35,7 @@ public class GForwardLine implements Behavior {
 		// TODO Auto-generated method stub
 
 		if (lightSensor1.getNormalizedLightValue() >= average && lightSensor2.getNormalizedLightValue() >= average) {
-			pilot.setTravelSpeed(MAXSPEED * 0.6);
+			pilot.setTravelSpeed(MAXSPEED * 0.4);
 			return true;
 		} else {
 			return false;
