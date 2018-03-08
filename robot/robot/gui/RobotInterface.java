@@ -28,10 +28,10 @@ public class RobotInterface implements Runnable {
 
 	@Override
 	public void run() {
-		Calibrate.calibrate();
+	//	Calibrate.calibrate();Do not use anymore
 		while (true) {
 			if (movementManager.getIsAtPickupLocation()) {
-				if (movementManager.getNumberOfPicks() > 0) {
+				if (movementManager.getNumberOfPicks() > 0) {  // Is it the required amount of picks, because once it arrives to pick up location, it might have 0 picks yet. Wont it print waiting for other robot from 
 					System.out.println(
 							"Robot arrived to pick up location. Please pick" + movementManager.getNumberOfPicks());
 					while (!movementManager.getIsRouteComplete()) {
@@ -52,7 +52,7 @@ public class RobotInterface implements Runnable {
 							} else if (pickedInLocation == movementManager.getNumberOfPicks()) {
 								LCD.clear();
 								System.out.println("Right amount picked.");
-								System.out.println("To the next pick!");
+								System.out.println("To the next location!");
 								pickedInLocation = 0;
 								movementManager.setIsAtPickupLocation(false);
 								movementManager.setIsRouteComplete(true);
@@ -87,7 +87,7 @@ public class RobotInterface implements Runnable {
 					}
 				} else if (movementManager.getNumberOfPicks() == 0) {
 					LCD.clear();
-					System.out.println("Waiting for other robot");
+					System.out.println("Waiting for other robot");  // Wont it print this when it arrives???
 					movementManager.setIsAtPickupLocation(false);
 					movementManager.setIsRouteComplete(true);
 				}
