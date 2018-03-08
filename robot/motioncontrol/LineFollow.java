@@ -35,33 +35,28 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	
 	
 	public void getAction(int currentAction) {
-		//Turns Right
-		if (currentAction == 0) {
-			DP.rotate(90);
-		}
-		
 		//Turns Left
-		else if (currentAction == 1) { 
+		if (currentAction == 0) {
 			DP.rotate(-90);
 		}
 		
-		//Rotates 180 degrees
+		//Turns Right
+		else if (currentAction == 1) { 
+			DP.rotate(90);
+		}
+		
+		//Straight
 		else if (currentAction == 2) {
+
+		}
+		
+		//Backwards
+		else if (currentAction == 3) {
 			DP.rotate(180);
 		}
 		
-		//Keeps going straight
-		else if (currentAction == 3) {
-			
-		}
-		
-		//Stops the robot
-		else if (currentAction == 4) {
-			DP.stop();
-		}
-		
 		else {
-			
+			DP.stop();
 		}
 	}
 	
@@ -91,8 +86,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 				}
 
 				else {
-					currentAction = 4;
-					getAction(currentAction);
+					getAction(-1);
 				}
 				
 			}

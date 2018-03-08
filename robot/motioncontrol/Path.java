@@ -3,44 +3,16 @@ package motioncontrol;
 import java.util.ArrayList;
 import java.util.List;
 
+import rp.assignments.team.warehouse.robot.communications.RobotManager;
+
 public class Path {
 
 	private List<Integer> pathList = new ArrayList<Integer>();
 
 	public Path() {
-		//Dummy instruction set for testing purposes
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(0);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(1);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(1);
-		addAction(0);
-		addAction(3);
-		addAction(0);
-		addAction(1);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-		addAction(3);
-	}
-	
-	//Adds a value to the pathList.
-	public void addAction(int value) {
-		pathList.add(value);
+		RobotManager rm = new RobotManager();
+		rm.start();
+		pathList = rm.getOrders(); 
 	}
 	
 	//Returns the pathList
