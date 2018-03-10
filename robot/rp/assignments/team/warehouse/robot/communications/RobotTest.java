@@ -6,7 +6,7 @@ import java.util.Queue;
 
 public class RobotTest {
 	public static void main(String[] args) throws InterruptedException {
-		RobotManager manager = new RobotManager();
+		RobotCommunicationsManager manager = new RobotCommunicationsManager();
 		manager.start();
 		List<Integer> orders = manager.getOrders();
 		while(true) {

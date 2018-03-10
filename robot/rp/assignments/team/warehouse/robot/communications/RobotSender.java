@@ -30,4 +30,13 @@ public class RobotSender extends Thread {
 		
 	}
 	
+	public void sendDone() {
+		try {
+			toServer.writeUTF(Command.FINISHED_JOB.toString());	
+		}
+		catch(IOException e) {
+			
+		}
+		
+	}
 }

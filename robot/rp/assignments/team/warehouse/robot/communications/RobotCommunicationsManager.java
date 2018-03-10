@@ -8,11 +8,11 @@ import java.util.Queue;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
 
-public class RobotManager {
+public class RobotCommunicationsManager {
 	private RobotReceiver receiver;
 	private RobotSender sender;
 
-	public RobotManager() {
+	public RobotCommunicationsManager() {
 		try {
 			System.out.println("Waiting for connection");
 			NXTConnection connection = Bluetooth.waitForConnection();
@@ -54,6 +54,14 @@ public class RobotManager {
 		return receiver.getOrders();
 
 	}
+	
+	/**
+	 * Returns the number of picks that the robot should take
+	 * @return The number of picks the robot should take.
+	 */
+	public int getNumOfPicks() {
+		return receiver.getNumOfPicks();
+	}
 
 	/**
 	 * Returns whether the current job has been cancelled.s
@@ -61,6 +69,13 @@ public class RobotManager {
 	 */
 	public boolean isCancelled() {
 		return receiver.isCancelled();
+	}
+	
+	/**
+	 * Sends to the server that the current job has been completed
+	 */
+	public void sendDone() {
+		sender.sendDone();
 	}
 
 }

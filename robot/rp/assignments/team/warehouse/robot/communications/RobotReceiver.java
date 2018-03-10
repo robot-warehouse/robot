@@ -16,6 +16,7 @@ public class RobotReceiver extends Thread {
 
 	// temporary until type of orders known
 	private List<Integer> orderQueue;
+	private int numOfPicks;
 	private boolean jobCancelled;
 	private DataInputStream fromServer;
 
@@ -23,6 +24,7 @@ public class RobotReceiver extends Thread {
 	public RobotReceiver(DataInputStream fromServer) {
 		orderQueue = new ArrayList<Integer>();
 		this.fromServer = fromServer;
+		numOfPicks = 0;
 	}
 	
 	@Override
@@ -47,6 +49,9 @@ public class RobotReceiver extends Thread {
 					orderQueue.addAll(tempCommands);
 					jobCancelled = false;
 					break;
+				case SEND_PICKS:
+					numOfPicks = Integer.valueOf(fromServer.readUTF());
+					break;
 				default:
 					System.out.println("Unrecognised command");
 					break;
@@ -63,6 +68,10 @@ public class RobotReceiver extends Thread {
 
 	public List<Integer> getOrders() {
 		return orderQueue;
+	}
+	
+	public int getNumOfPicks() {
+		return numOfPicks;
 	}
 
 	public boolean isCancelled() {
