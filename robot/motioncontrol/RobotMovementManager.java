@@ -2,6 +2,7 @@ package motioncontrol;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import utils.Direction;
 
@@ -12,35 +13,34 @@ import utils.Direction;
  */
 public class RobotMovementManager {
 
-	private ArrayList<Direction> route;
+	//private Path path;
 	private boolean shouldExecuteRoute;
 	private int numOfPicks;
 	private boolean isRouteComplete;
 	private boolean atPickup;
+	
+	protected List<Integer> route;
 
 	public RobotMovementManager() {
-		route = null;
+		//path = new Path();
+		//route = path.getPathList();
 		shouldExecuteRoute = false;
 		numOfPicks = 0;
 		isRouteComplete = false;
 		atPickup = false;
 	}
 
-	public synchronized void setRoute(ArrayList<Direction> value) {
-		route = value;
-	}
+//	public synchronized List<Integer> getRoute() {
+//		return route;
+//	}
 
-	public synchronized ArrayList<Direction> getRoute() {
-		return route;
-	}
-
-	public synchronized void setShouldExecuteRoute(boolean value) {
-		shouldExecuteRoute = value;
-	}
-
-	public synchronized boolean getShouldExecuteRoute() {
-		return shouldExecuteRoute;
-	}
+//	public synchronized void setShouldExecuteRoute(boolean value) {  It is done by A* and Route execution
+//		shouldExecuteRoute = value;
+//	}
+//
+//	public synchronized boolean getShouldExecuteRoute() {
+//		return shouldExecuteRoute;
+//	}
 
 	public void setNumberOfPicks(int readInt) {
 		this.numOfPicks = readInt;

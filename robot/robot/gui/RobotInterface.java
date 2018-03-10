@@ -20,15 +20,16 @@ public class RobotInterface implements Runnable {
 	private int pickedInLocation;
 	private RobotMovementManager movementManager;
 	public static int average;
+	
 
 	public RobotInterface(RobotMovementManager movementManager) {
 		this.pickedInLocation = 0;
 		this.movementManager = movementManager;
+		
 	}
 
 	@Override
 	public void run() {
-	//	Calibrate.calibrate();Do not use anymore
 		while (true) {
 			if (movementManager.getIsAtPickupLocation()) {
 				if (movementManager.getNumberOfPicks() > 0) {  // Is it the required amount of picks, because once it arrives to pick up location, it might have 0 picks yet. Wont it print waiting for other robot from 
@@ -55,7 +56,7 @@ public class RobotInterface implements Runnable {
 								System.out.println("To the next location!");
 								pickedInLocation = 0;
 								movementManager.setIsAtPickupLocation(false);
-								movementManager.setIsRouteComplete(true);
+								movementManager.setIsRouteComplete(false);
 							}
 						}
 						if (i == Button.ID_LEFT) {
@@ -71,7 +72,7 @@ public class RobotInterface implements Runnable {
 							System.out.println("Picking:" + pickedInLocation);
 						}
 					}
-				} else if (movementManager.getNumberOfPicks() == -1) {
+				} else if (movementManager.getNumberOfPicks() == -1) {      // How number of picks determine that robot is at the drop out location
 					System.out.println("Robot arrived to drop off location");
 					System.out.println("Please press ENTER to unload your items");
 					while (!movementManager.getIsRouteComplete()) {
@@ -82,14 +83,14 @@ public class RobotInterface implements Runnable {
 							System.out.println("To the next pick!");
 							pickedInLocation = 0;
 							movementManager.setIsAtPickupLocation(false);
-							movementManager.setIsRouteComplete(true);
+							movementManager.setIsRouteComplete(false);
 						}
 					}
 				} else if (movementManager.getNumberOfPicks() == 0) {
 					LCD.clear();
 					System.out.println("Waiting for other robot");  // Wont it print this when it arrives???
 					movementManager.setIsAtPickupLocation(false);
-					movementManager.setIsRouteComplete(true);
+					movementManager.setIsRouteComplete(false);
 				}
 			}
 		}

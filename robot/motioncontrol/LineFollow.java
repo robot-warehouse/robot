@@ -2,6 +2,8 @@ package motioncontrol;
 
 import java.util.List;
 import java.util.ListIterator;
+
+import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsManager;
 import rp.systems.RobotProgrammingDemo;
 import lejos.nxt.*;
 import lejos.robotics.navigation.DifferentialPilot;
@@ -14,17 +16,24 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	private LightController light2;
 	private LightController light4;
 	private RobotInterface gui;
-	private Path path = new Path();
+	private RobotCommunicationsManager robotCommunicationsManager;
+	private Path path = new Path(robotCommunicationsManager);
+	private Picks picks = new Picks(robotCommunicationsManager);
+	private RobotMovementManager manager;
 	private ListIterator<Integer> listIterate;
 	private final int targetValue = 34;
 	private final int junctionValue = 45;
+	private  int pickNumber;
 
 	public LineFollow(DifferentialPilot DP, SensorPort port1, SensorPort port2, SensorPort port4) {
 		this.DP = DP;
+		manager =  new RobotMovementManager();
 		light1 = new LightController(port1);
 		light2 = new LightController(port2);
 		light4 = new LightController(port4);
-		this.gui = new RobotInterface(new RobotMovementManager());
+		this.gui = new RobotInterface(manager);
+		
+		
 	}
 	
 	@Override
@@ -92,6 +101,9 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 				}
 
 				else {
+					manager.setNumberOfPicks(picks.getPickNumber());
+					manager.setIsAtPickupLocation(true);
+					manager.setIsRouteComplete(true);
 					getAction(4);
 				}
 				
