@@ -1,6 +1,7 @@
 package motioncontrol;
 
 import motioncontrol.LineFollow;
+import robot.gui.RobotInterface;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;

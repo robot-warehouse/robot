@@ -5,6 +5,7 @@ import java.util.ListIterator;
 import rp.systems.RobotProgrammingDemo;
 import lejos.nxt.*;
 import lejos.robotics.navigation.DifferentialPilot;
+import robot.gui.RobotInterface;
 
 public class LineFollow extends RobotProgrammingDemo implements SensorPortListener {
 	
@@ -12,6 +13,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	private LightController light1;
 	private LightController light2;
 	private LightController light4;
+	private RobotInterface gui;
 	private Path path = new Path();
 	private ListIterator<Integer> listIterate;
 	private final int targetValue = 34;
@@ -22,6 +24,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 		light1 = new LightController(port1);
 		light2 = new LightController(port2);
 		light4 = new LightController(port4);
+		this.gui = new RobotInterface(new RobotMovementManager());
 	}
 	
 	@Override
@@ -65,6 +68,8 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 		DP.setTravelSpeed(150);
 		PIDController pid = new PIDController(targetValue, light2, (float) DP.getTravelSpeed(), DP);
 		int currentAction = 0;
+		Thread interfaceThread = new Thread(this.gui);
+		interfaceThread.start();
 		List<Integer> instructionSet = path.getPathList();
 		listIterate = instructionSet.listIterator();
 		while (m_run) {
