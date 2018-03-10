@@ -55,7 +55,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 			DP.rotate(180);
 		}
 		
-		else {
+		else if(currentAction == 4) {
 			DP.stop();
 		}
 	}
