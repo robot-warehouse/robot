@@ -67,13 +67,14 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 		int currentAction = 0;
 		List<Integer> instructionSet = path.getPathList();
 		listIterate = instructionSet.listIterator();
-		
 		while (m_run) {
-			pid.run();
-			DP.forward();
-			Motor.A.setSpeed(pid.rightSpeed);
-			Motor.B.setSpeed(pid.leftSpeed);
-			
+			if(currentAction != 4) {
+				pid.run();
+				DP.forward();
+				Motor.A.setSpeed(pid.rightSpeed);
+				Motor.B.setSpeed(pid.leftSpeed);
+				
+			}
 			Boolean check = junctionReached(junctionValue);
 			
 			if(check) {
@@ -86,7 +87,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 				}
 
 				else {
-					getAction(-1);
+					getAction(4);
 				}
 				
 			}
