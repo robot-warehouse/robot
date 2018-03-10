@@ -12,7 +12,9 @@ public class Path {
 	public Path() {
 		RobotManager rm = new RobotManager();
 		rm.start();
-		pathList = rm.getOrders(); 
+		while(pathList.isEmpty()) {
+			pathList = rm.getOrders(); 	
+		}
 	}
 	
 	//Returns the pathList
