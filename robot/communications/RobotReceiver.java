@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
-import shared.communications.Command;
+import rp.assignments.team.warehouse.shared.communications.Command;
 
 /*
  * Receives messages from the server
@@ -15,16 +14,16 @@ import shared.communications.Command;
 public class RobotReceiver extends Thread {
 
 	// temporary until type of orders known
-	private List<Integer> orderQueue;
+	private List<Integer> orders;
 	private boolean jobCancelled;
 	private DataInputStream fromServer;
 
 
 	public RobotReceiver(DataInputStream fromServer) {
-		orderQueue = new ArrayList<Integer>();
+		orders = new ArrayList<Integer>();
 		this.fromServer = fromServer;
 	}
-	
+
 	@Override
 	public void run() {
 		while (true) {
@@ -36,16 +35,15 @@ public class RobotReceiver extends Thread {
 					jobCancelled = true;
 					break;
 				case SEND_ORDERS:
-					orderQueue.clear();
-					List<Integer> tempCommands = new ArrayList<Integer>();
+					orders.clear(); //remove previous orders
 					String val = fromServer.readUTF();
+					int i = 0;
 					while (!val.equals("-1")) {
-						tempCommands.add((Integer.parseInt(val)));
+						i++;
+						orders.add(Integer.parseInt(val));
 						val = fromServer.readUTF();
 					}
-					System.out.println("New orders sent");
-					orderQueue.addAll(tempCommands);
-					jobCancelled = false;
+					System.out.println("Finished ");
 					break;
 				default:
 					System.out.println("Unrecognised command");
@@ -62,7 +60,7 @@ public class RobotReceiver extends Thread {
 	}
 
 	public List<Integer> getOrders() {
-		return orderQueue;
+		return orders;
 	}
 
 	public boolean isCancelled() {

@@ -2,11 +2,8 @@ package rp.assignments.team.warehouse.robot.communications;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.PriorityBlockingQueue;
 
-import rp.assignments.team.warehouse.shared.communications.Command;
+import shared.communications.Command;
 
 
 public class RobotSender extends Thread {
@@ -15,9 +12,6 @@ public class RobotSender extends Thread {
 		this.toServer = toServer;
 	}
 	
-	/**
-	 * Send position of robot to the server
-	 */
 	public void sendPosition(int x, int y) {
 		try {
 			toServer.writeUTF(Command.SEND_POSITION.toString());	
