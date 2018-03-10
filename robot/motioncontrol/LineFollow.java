@@ -16,7 +16,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	private LightController light2;
 	private LightController light4;
 	private RobotInterface gui;
-	private RobotCommunicationsManager robotCommunicationsManager;
+	private RobotCommunicationsManager robotCommunicationsManager = new RobotCommunicationsManager();
 	private Path path = new Path(robotCommunicationsManager);
 	private Picks picks = new Picks(robotCommunicationsManager);
 	private RobotMovementManager manager;
