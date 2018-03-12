@@ -22,3 +22,13 @@ The robots are also able to localize themselves if they get lost using Monte-Car
 * Localisation = Lican Zhao
 * Route planning helper = Zhenghao Yan (if shows up)
 * Robot Interface = Thomas Chan (if shows up)
+* 
+
+## For Adam
+
+* 1) We run MotionControl on robot. Robot waits for a connection through bluetooth.
+* 2) Then we run BluetoothTest class from pc part. It includes start coordinates, end coordinates which will be passed to route planning and it also send the numbers of picks to get at the pick up location.
+* 3) A* plans the route, Route Execution converts it, James sends it to robot.
+* 4) Robot gets to the specific location and Robot interface is started in LineFollow (currentAction==4).
+* 5) In robot Interface, we check how many items are selected. If correct items are selected. Robot prints a message "To next location".
+* 6) After this, it should get commands again and start moving. However, we did not make it to move again.
