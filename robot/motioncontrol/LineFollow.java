@@ -16,9 +16,9 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	private LightController light2;
 	private LightController light4;
 	private RobotInterface gui;
-	private RobotCommunicationsManager robotCommunicationsManager = new RobotCommunicationsManager();
-	private Path path = new Path(robotCommunicationsManager);
-	private Picks picks = new Picks(robotCommunicationsManager);
+	private RobotCommunicationsManager robotCommunicationsManager;
+	private Path path;
+	private Picks picks;
 	private RobotMovementManager manager;
 	private ListIterator<Integer> listIterate;
 	private final int targetValue = 34;
@@ -27,7 +27,11 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 
 	public LineFollow(DifferentialPilot DP, SensorPort port1, SensorPort port2, SensorPort port4) {
 		this.DP = DP;
+		robotCommunicationsManager = new RobotCommunicationsManager();
+		robotCommunicationsManager.start();
 		manager =  new RobotMovementManager();
+		path = new Path(robotCommunicationsManager);
+		picks = new Picks(robotCommunicationsManager);
 		light1 = new LightController(port1);
 		light2 = new LightController(port2);
 		light4 = new LightController(port4);
@@ -78,9 +82,10 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 		PIDController pid = new PIDController(targetValue, light2, (float) DP.getTravelSpeed(), DP);
 		int currentAction = 0;
 		Thread interfaceThread = new Thread(this.gui);
-		interfaceThread.start();
+		
 		List<Integer> instructionSet = path.getPathList();
 		listIterate = instructionSet.listIterator();
+		System.out.println(instructionSet.get(0));
 		while (m_run) {
 			if(currentAction != 4) {
 				pid.run();
@@ -99,16 +104,18 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 					currentAction = listIterate.next();
 					getAction(currentAction);
 				}
-
 				else {
+					interfaceThread.start();
 					manager.setNumberOfPicks(picks.getPickNumber());
 					manager.setIsAtPickupLocation(true);
 					manager.setIsRouteComplete(true);
 					getAction(4);
+					
 				}
 				
 			}
 			
 		}
+		
 	}
 }

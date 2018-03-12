@@ -7,16 +7,12 @@ import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsMan
 
 
 public class Path {
-	
-	
-
 	protected List<Integer> pathList = new ArrayList<Integer>();
 	RobotCommunicationsManager rm;
 
 
-	public Path() {
-		RobotCommunicationsManager rm = new RobotCommunicationsManager();
-		rm.start();
+	public Path(RobotCommunicationsManager rm) {
+		this.rm = rm;
 		while(pathList.isEmpty()) {
 			pathList = rm.getOrders(); 	
 		}

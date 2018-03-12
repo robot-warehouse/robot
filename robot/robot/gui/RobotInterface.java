@@ -72,7 +72,7 @@ public class RobotInterface implements Runnable {
 							System.out.println("Picking:" + pickedInLocation);
 						}
 					}
-				} else if (movementManager.getNumberOfPicks() == -1) {      // How number of picks determine that robot is at the drop out location
+				} else if (movementManager.getNumberOfPicks() == pickedInLocation) {      // How number of picks determine that robot is at the drop out location
 					System.out.println("Robot arrived to drop off location");
 					System.out.println("Please press ENTER to unload your items");
 					while (!movementManager.getIsRouteComplete()) {
