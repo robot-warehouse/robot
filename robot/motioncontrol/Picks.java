@@ -14,6 +14,7 @@ public class Picks {
 
 	// Returns the number of picks
 	public int getPickNumber() {
+		pickNumber = rm.getNumOfPicks();
 		return pickNumber;
 	}
 }

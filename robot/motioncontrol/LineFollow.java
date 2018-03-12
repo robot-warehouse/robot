@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.ListIterator;
 
 import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsManager;
+import rp.assignments.team.warehouse.robot.communications.RobotManager;
 import rp.systems.RobotProgrammingDemo;
 import lejos.nxt.*;
 import lejos.robotics.navigation.DifferentialPilot;
 import robot.gui.RobotInterface;
+import robot.gui.rbtInterface;
 
 public class LineFollow extends RobotProgrammingDemo implements SensorPortListener {
 	
@@ -15,11 +17,12 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	private LightController light1;
 	private LightController light2;
 	private LightController light4;
-	private RobotInterface gui;
+	private rbtInterface gui;
 	private RobotCommunicationsManager robotCommunicationsManager;
+	private Boolean isAtPickupLocation;
 	private Path path;
 	private Picks picks;
-	private RobotMovementManager manager;
+	private RobotManager manager;
 	private ListIterator<Integer> listIterate;
 	private final int targetValue = 34;
 	private final int junctionValue = 45;
@@ -29,13 +32,13 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 		this.DP = DP;
 		robotCommunicationsManager = new RobotCommunicationsManager();
 		robotCommunicationsManager.start();
-		manager =  new RobotMovementManager();
+		manager =  new RobotManager();
 		path = new Path(robotCommunicationsManager);
 		picks = new Picks(robotCommunicationsManager);
 		light1 = new LightController(port1);
 		light2 = new LightController(port2);
 		light4 = new LightController(port4);
-		this.gui = new RobotInterface(manager);
+		gui = new rbtInterface(robotCommunicationsManager);
 		
 		
 	}
@@ -73,6 +76,9 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 		
 		else if(currentAction == 4) {
 			DP.stop();
+			gui.updateLCDScreen();
+			System.out.println("Am I going here");
+			DP.travel(0.2);
 		}
 	}
 	
@@ -80,9 +86,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	public void run() {
 		DP.setTravelSpeed(150);
 		PIDController pid = new PIDController(targetValue, light2, (float) DP.getTravelSpeed(), DP);
-		int currentAction = 0;
-		Thread interfaceThread = new Thread(this.gui);
-		
+		int currentAction = 0;		
 		List<Integer> instructionSet = path.getPathList();
 		listIterate = instructionSet.listIterator();
 		System.out.println(instructionSet.get(0));
@@ -105,11 +109,13 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 					getAction(currentAction);
 				}
 				else {
-					interfaceThread.start();
 					manager.setNumberOfPicks(picks.getPickNumber());
-					manager.setIsAtPickupLocation(true);
-					manager.setIsRouteComplete(true);
+					manager.setRobotAtPickUpLocation(true);
+					manager.setRobotAtDropOutLocation(false);
+					robotCommunicationsManager.sendDone();
 					getAction(4);
+					
+					//continue;
 					
 				}
 				

@@ -77,5 +77,27 @@ public class RobotCommunicationsManager {
 	public void sendDone() {
 		sender.sendDone();
 	}
+	
+	//------------------------------------------------------------------
+	
+	boolean robotAtPickUpLocation = true;
+	boolean robotAtDropOutLocation = false;
+	
+
+	public boolean isRobotAtPickUpLocation() {
+		return robotAtPickUpLocation;
+	}
+
+	public void setRobotAtPickUpLocation(boolean robotAtPickUpLocation) {
+		this.robotAtPickUpLocation = robotAtPickUpLocation;
+	}
+
+	public boolean isRobotAtDropOutLocation() {
+		return robotAtDropOutLocation;
+	}
+
+	public void setRobotAtDropOutLocation(boolean robotAtDropOutLocation) {
+		this.robotAtDropOutLocation = robotAtDropOutLocation;
+	}
 
 }
