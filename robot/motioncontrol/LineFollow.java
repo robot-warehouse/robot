@@ -1,5 +1,7 @@
 package motioncontrol;
 
+import java.nio.channels.ReadableByteChannel;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -27,6 +29,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	private final int targetValue = 34;
 	private final int junctionValue = 45;
 	private  int pickNumber;
+	private List<Integer> instructionSet;
 
 	public LineFollow(DifferentialPilot DP, SensorPort port1, SensorPort port2, SensorPort port4) {
 		this.DP = DP;
@@ -39,6 +42,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 		light2 = new LightController(port2);
 		light4 = new LightController(port4);
 		gui = new rbtInterface(robotCommunicationsManager);
+		instructionSet = new ArrayList<>();
 		
 		
 	}
@@ -56,29 +60,43 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	public void getAction(int currentAction) {
 		//Turns Left
 		if (currentAction == 0) {
+			DP.travel(8);
 			DP.rotate(-90);
 		}
 		
 		//Turns Right
 		else if (currentAction == 1) { 
+			DP.travel(8);
 			DP.rotate(90);
 		}
 		
 		//Straight
 		else if (currentAction == 2) {
-
+			DP.travel(8);
 		}
 		
 		//Backwards
 		else if (currentAction == 3) {
+			DP.travel(8);
 			DP.rotate(180);
 		}
 		
 		else if(currentAction == 4) {
-			DP.stop();
+			robotCommunicationsManager.setRobotAtPickUpLocation(true);
+			if(gui.getAmountToPickInLocation() == robotCommunicationsManager.getNumOfPicks()) {
+				robotCommunicationsManager.setRobotAtDropOutLocation(true);
+				robotCommunicationsManager.setRobotAtPickUpLocation(false);
+			}
 			gui.updateLCDScreen();
-			System.out.println("Am I going here");
-			DP.travel(0.2);
+			System.out.println("finished stopping");
+			System.out.println("Starting stopping");
+			robotCommunicationsManager.resetOrders();
+			robotCommunicationsManager.sendDone();
+			path.refreshPath();
+			instructionSet = path.getPathList();
+			System.out.println(path.getPathList());
+			listIterate = instructionSet.listIterator();
+
 		}
 	}
 	
@@ -87,7 +105,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 		DP.setTravelSpeed(150);
 		PIDController pid = new PIDController(targetValue, light2, (float) DP.getTravelSpeed(), DP);
 		int currentAction = 0;		
-		List<Integer> instructionSet = path.getPathList();
+		instructionSet = path.getPathList();
 		listIterate = instructionSet.listIterator();
 		System.out.println(instructionSet.get(0));
 		while (m_run) {
@@ -96,27 +114,23 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 				DP.forward();
 				Motor.A.setSpeed(pid.rightSpeed);
 				Motor.B.setSpeed(pid.leftSpeed);
-				
 			}
 			Boolean check = junctionReached(junctionValue);
-			
 			if(check) {
 				DP.stop();
-				DP.travel(8);
+				
 				
 				if (listIterate.hasNext()) {
 					currentAction = listIterate.next();
 					getAction(currentAction);
+					if(currentAction ==  4) {
+						System.out.println("Successfully stopped");
+						currentAction = 0;
+					}
+					
 				}
 				else {
-					manager.setNumberOfPicks(picks.getPickNumber());
-					manager.setRobotAtPickUpLocation(true);
-					manager.setRobotAtDropOutLocation(false);
-					robotCommunicationsManager.sendDone();
-					getAction(4);
-					
-					//continue;
-					
+					continue;
 				}
 				
 			}

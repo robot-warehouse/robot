@@ -17,4 +17,5 @@ public class Picks {
 		pickNumber = rm.getNumOfPicks();
 		return pickNumber;
 	}
+
 }

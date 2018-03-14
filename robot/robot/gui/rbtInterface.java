@@ -8,14 +8,22 @@ import rp.assignments.team.warehouse.robot.communications.RobotManager;
 public class rbtInterface {
 
 	private RobotCommunicationsManager robotManager;
-	private int amountToPickInLocation;
+	public int amountToPickInLocation;
+
+	public int getAmountToPickInLocation() {
+		return amountToPickInLocation;
+	}
+
+	public void setAmountToPickInLocation(int amountToPickInLocation) {
+		this.amountToPickInLocation = amountToPickInLocation;
+	}
 
 	public rbtInterface(RobotCommunicationsManager robotManager) {
 		this.robotManager = robotManager;
 	}
 
 	public void updateLCDScreen() {
-		while (true) {
+		while (true) {;
 			if (robotManager.isRobotAtPickUpLocation()) {
 				if (robotManager.getNumOfPicks() > 0) {
 					System.out.println(
@@ -39,7 +47,6 @@ public class rbtInterface {
 								LCD.clear();
 								System.out.println("Right amount picked.");
 								System.out.println("To the next location!");
-								amountToPickInLocation = 0;
 								robotManager.setRobotAtPickUpLocation(false);
 								robotManager.setRobotAtDropOutLocation(false);
 								//break;
@@ -59,31 +66,31 @@ public class rbtInterface {
 							System.out.println("Picking:" + amountToPickInLocation);
 						}
 					}
-				} else if (robotManager.getNumOfPicks() == amountToPickInLocation) {
-					System.out.println("Robot arrived to drop off location");
-					System.out.println("Please press ENTER to unload your items");
-					while (!robotManager.isRobotAtDropOutLocation()) {
-						int i = Button.waitForAnyPress();
-						if (i == Button.ID_ENTER) {
-							LCD.clear();
-							System.out.println("Items are unloaded.");
-							System.out.println("To the next pick!");
-							amountToPickInLocation = 0;
-							robotManager.setRobotAtPickUpLocation(false);
-							robotManager.setRobotAtDropOutLocation(false);
-							break;
-						}
-					}
-				} else if (robotManager.getNumOfPicks() == 0) {
-					LCD.clear();
-					System.out.println("Waiting for other robot");
-					robotManager.setRobotAtPickUpLocation(false);
-					robotManager.setRobotAtDropOutLocation(false);
-					break;
-				}
+				} 
 			}
-			//break;
-			return;
+			else if (robotManager.getNumOfPicks() == amountToPickInLocation) {
+				System.out.println("Robot arrived to drop off location");
+				System.out.println("Please press ENTER to unload your items");
+				while (robotManager.isRobotAtDropOutLocation()) {
+					int i = Button.waitForAnyPress();
+					if (i == Button.ID_ENTER) {
+						LCD.clear();
+						System.out.println("Items are unloaded.");
+						System.out.println("To the next pick!");
+						amountToPickInLocation = 0;
+						robotManager.setRobotAtPickUpLocation(false);
+						robotManager.setRobotAtDropOutLocation(false);
+						break;
+					}
+				}
+				break;
+			} else if (robotManager.getNumOfPicks() == 0) {
+				LCD.clear();
+				System.out.println("Waiting for other robot");
+				robotManager.setRobotAtPickUpLocation(false);
+				robotManager.setRobotAtDropOutLocation(false);
+				break;
+			}
 		}
 
 	}

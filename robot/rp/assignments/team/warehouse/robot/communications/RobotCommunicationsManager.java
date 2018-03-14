@@ -78,6 +78,10 @@ public class RobotCommunicationsManager {
 		sender.sendDone();
 	}
 	
+	public void resetOrders() {
+		receiver.resetOrders();
+	}
+	
 	//------------------------------------------------------------------
 	
 	boolean robotAtPickUpLocation = true;

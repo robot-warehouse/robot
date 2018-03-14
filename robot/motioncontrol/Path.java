@@ -14,7 +14,7 @@ public class Path {
 	public Path(RobotCommunicationsManager rm) {
 		this.rm = rm;
 		while(pathList.isEmpty()) {
-			pathList = rm.getOrders(); 	
+			pathList.addAll(rm.getOrders());
 		}
 	}
 	
@@ -22,4 +22,12 @@ public class Path {
 	public List<Integer> getPathList() {
   		return pathList;
   	}
+	
+	public void refreshPath() {
+		pathList.clear();
+		while(pathList.isEmpty()) {
+			pathList.addAll(rm.getOrders());
+		}
+		System.out.println("New path: " + pathList.toString());
+	}
 }

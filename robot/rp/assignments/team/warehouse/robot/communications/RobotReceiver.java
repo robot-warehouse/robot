@@ -46,6 +46,7 @@ public class RobotReceiver extends Thread {
 						val = fromServer.readUTF();
 					}
 					System.out.println("New orders sent");
+					System.out.println(tempCommands.toString());
 					orderQueue.addAll(tempCommands);
 					jobCancelled = false;
 					break;
@@ -68,6 +69,10 @@ public class RobotReceiver extends Thread {
 
 	public List<Integer> getOrders() {
 		return orderQueue;
+	}
+	
+	public void resetOrders() {
+		orderQueue = new ArrayList<>();
 	}
 	
 	public int getNumOfPicks() {
