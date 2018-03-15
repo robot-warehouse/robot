@@ -1,4 +1,4 @@
-package shared.communications;
+package rp.assignments.team.warehouse.robot.communications;
 
 public enum Facing {
     /**
