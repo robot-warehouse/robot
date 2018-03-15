@@ -8,13 +8,13 @@ Not yet Implemented:
 The robots are also able to localize themselves if they get lost using Monte-Carlo localization algorithm by particle filtering.
 
 
-# Jobs/Responsibilites
+# Jobs/Responsibilities
 
 * Team manager and Secondary Integrator = Augustas
 * Primary integrator = Adam
 * Job Assignment & Job Selection = Jordan
 * W.M & Robot Interface(if Thomas does not show up) = Obaid
-* Primary Netoworking = James
+* Primary Networking = James
 * Secondary Networking = Obaid
 * Route Planning/ Search = Apporva
 * Robot Motion-Control = Qasim
