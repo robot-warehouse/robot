@@ -20,7 +20,7 @@ public class RobotReceiver extends Thread {
 
     public RobotReceiver(DataInputStream fromServer) {
         this.fromServer = fromServer;
-        
+
         orderQueue = new ArrayList<>();
         numOfPicks = 0;
     }
