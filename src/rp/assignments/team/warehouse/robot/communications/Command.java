@@ -36,7 +36,7 @@ public enum Command {
     /**
      * Attempt to reconnect with a robot.
      */
-    RECONNECT;;
+    RECONNECT;
 
     public static Command strToCommand(String s) throws NullPointerException, IllegalArgumentException {
         for (Command c : Command.values()) {

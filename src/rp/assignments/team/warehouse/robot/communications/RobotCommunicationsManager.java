@@ -5,32 +5,47 @@ import java.util.List;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
 
+import rp.assignments.team.warehouse.robot.RobotController;
+
 public class RobotCommunicationsManager {
 
-    boolean robotAtPickUpLocation = true;
-    boolean robotAtDropOutLocation = false;
+    private RobotController controller;
     private RobotReceiver receiver;
     private RobotSender sender;
 
+    private boolean robotAtPickUpLocation = true;
+    private boolean robotAtDropOutLocation = false;
+    private boolean connected;
+
     public RobotCommunicationsManager() {
         try {
+            this.connected = false;
             System.out.println("Waiting for connection");
             NXTConnection connection = Bluetooth.waitForConnection();
 
+            this.connected = true;
             System.out.println("Connected");
 
             receiver = new RobotReceiver(connection.openDataInputStream());
             sender = new RobotSender(connection.openDataOutputStream());
+
+            receiver.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void setController(RobotController controller) {
+        this.controller = controller;
+    }
+
     /**
-     * Start the server, allowing it to send and receive messages.
+     * Returns whether the server is still connected
+     *
+     * @return boolean
      */
-    public void start() {
-        receiver.start();
+    public boolean isConnected() {
+        return this.connected;
     }
 
     /**

@@ -10,15 +10,18 @@ import java.util.List;
  */
 public class RobotReceiver extends Thread {
 
+    private DataInputStream fromServer;
+    private RobotCommunicationsManager communicationsManager;
+
     // temporary until type of orders known
     private List<Integer> orderQueue;
     private int numOfPicks;
     private boolean jobCancelled;
-    private DataInputStream fromServer;
 
     public RobotReceiver(DataInputStream fromServer) {
-        orderQueue = new ArrayList<>();
         this.fromServer = fromServer;
+        
+        orderQueue = new ArrayList<>();
         numOfPicks = 0;
     }
 

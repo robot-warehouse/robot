@@ -35,7 +35,6 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
     public LineFollow(DifferentialPilot DP, SensorPort port1, SensorPort port2, SensorPort port4) {
         this.DP = DP;
         robotCommunicationsManager = new RobotCommunicationsManager();
-        robotCommunicationsManager.start();
         manager = new RobotManager();
         path = new Path(robotCommunicationsManager);
         picks = new Picks(robotCommunicationsManager);

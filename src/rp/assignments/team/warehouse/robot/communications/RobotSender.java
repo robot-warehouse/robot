@@ -4,7 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 
-public class RobotSender extends Thread {
+public class RobotSender {
 
     private DataOutputStream toServer;
 
