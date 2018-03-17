@@ -7,6 +7,7 @@ import java.util.Queue;
 import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsManager;
 import rp.assignments.team.warehouse.robot.gui.IRobotInterface;
 import rp.assignments.team.warehouse.robot.motioncontrol.IRobotMotionController;
+import rp.assignments.team.warehouse.robot.motioncontrol.RobotMotionController;
 
 public class RobotController {
 
@@ -27,11 +28,11 @@ public class RobotController {
 
     public RobotController(RobotCommunicationsManager communicationsManager) {
         this.communicationsManager = communicationsManager;
-
-//        this.robotMotionController  = new RobotMotionController();
+        this.robotMotionController  = new RobotMotionController();
+        
 //        this.robotInterface = new RobotInterface();
 
-        this.instructionQueue = new Queue<Instruction>();
+        this.instructionQueue = new LinkedList<>();
         this.currentWeight = 0;
         this.hasPickedUpAllItems = false;
     }
@@ -42,7 +43,7 @@ public class RobotController {
             assert this.currentWeight <= this.MAXIMUM_WEIGHT;
 
             if (cancelledJob) {
-                this.instructionQueue = new Queue<Instruction>();
+                this.instructionQueue = new LinkedList<>();
                 this.cancelledJob = false;
                 this.currentCarryingCount = 0;
             }
@@ -59,7 +60,7 @@ public class RobotController {
 
                 communicationsManager.sendDone();
             } else {
-                Instruction instruction = (Instruction) instructionQueue.pop();
+                Instruction instruction = instructionQueue.poll();
 
                 switch (instruction) {
                     case FORWARDS:
@@ -86,13 +87,11 @@ public class RobotController {
     }
 
     public void addInstructionToQueue(Instruction instruction) {
-        this.instructionQueue.push(instruction);
+        this.instructionQueue.offer(instruction);
     }
 
     public void addInstructionToQueue(List<Instruction> instructions) {
-        for (Instruction i : instructions) {
-            this.instructionQueue.push(i);
-        }
+        instructions.forEach(i -> this.instructionQueue.offer(i));
     }
 
     public void cancelJob() {

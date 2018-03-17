@@ -17,8 +17,8 @@ import rp.assignments.team.warehouse.robot.gui.rbtInterface;
  */
 public class LineFollow extends RobotProgrammingDemo implements SensorPortListener {
 
-    private final int targetValue = Calibrate.middleLine; //NAMELESS 35; //TRIHARD 35; //JOHNCENA 34;
-    private final int junctionValue = Calibrate.juncAvg; //NAMELESS 34; //TRIHARD 34; //JOHNCENA 45;
+    private final int targetValue = 34; //NAMELESS 35; //TRIHARD 35; //JOHNCENA 34;
+    private final int junctionValue = 37; //NAMELESS 34; //TRIHARD 34; //JOHNCENA 45;
     private DifferentialPilot DP;
     private LightController light1;
     private LightController light2;
