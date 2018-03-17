@@ -8,7 +8,14 @@ import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsMan
 
 public class Robot {
 
-    public static void main(String[] args) throws InterruptedException {
+    /**
+     * Main class to run on the robot. Sets up Communications Manager and Controller and passes at instance of each into
+     * each other. On the controller code ending we can assume the server disconnected so we check with the user if
+     * they'd like to run the code again.
+     *
+     * @param args not used
+     */
+    public static void main(String[] args) {
         boolean continueRunning = true;
 
         while (continueRunning) {
@@ -20,12 +27,15 @@ public class Robot {
             RobotCommunicationsManager communicationsManager = new RobotCommunicationsManager();
 
             System.out.println("Connected to server!");
-            Thread.sleep(1000);
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ignored) {}
 
             RobotController robotController = new RobotController(communicationsManager);
 
             communicationsManager.setController(robotController);
-            robotController.run();
+            robotController.startRunningRobot();
 
             System.out.println("Server has been disconnect");
             System.out.println("Press ENTER button to restart, ESCAPE button to quit");
