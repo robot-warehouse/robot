@@ -7,7 +7,7 @@ import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsMan
 
 public class Robot {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         boolean continueRunning = true;
 
         while (continueRunning) {
@@ -19,6 +19,7 @@ public class Robot {
             RobotCommunicationsManager communicationsManager = new RobotCommunicationsManager();
 
             System.out.println("Connected to server!");
+            Thread.sleep(1000);
 
             RobotController robotController = new RobotController(communicationsManager);
 

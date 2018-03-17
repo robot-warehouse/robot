@@ -33,9 +33,9 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
     private int pickNumber;
     private List<Integer> instructionSet;
 
-    public LineFollow(DifferentialPilot DP, SensorPort port1, SensorPort port2, SensorPort port4) {
+    public LineFollow(DifferentialPilot DP, SensorPort port1, SensorPort port2, SensorPort port4, RobotCommunicationsManager commsManager) {
         this.DP = DP;
-        robotCommunicationsManager = new RobotCommunicationsManager();
+        robotCommunicationsManager = commsManager;
         manager = new RobotManager();
         path = new Path(robotCommunicationsManager);
         picks = new Picks(robotCommunicationsManager);
@@ -112,22 +112,22 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
                 Motor.A.setSpeed(pid.rightSpeed);
                 Motor.B.setSpeed(pid.leftSpeed);
             }
-//            Boolean check = junctionReached(junctionValue);
-//            if (check) {
-//                DP.stop();
-//
-//                if (listIterate.hasNext()) {
-//                    currentAction = listIterate.next();
-//                    getAction(currentAction);
-//
-//                    if (currentAction == 4) {
-//                        System.out.println("Successfully stopped");
-//                        currentAction = 0;
-//                    }
-//                } else {
-//                    continue;
-//                }
-//            }
+            Boolean check = junctionReached(junctionValue);
+            if (check) {
+                DP.stop();
+
+                if (listIterate.hasNext()) {
+                    currentAction = listIterate.next();
+                    getAction(currentAction);
+
+                    if (currentAction == 4) {
+                        System.out.println("Successfully stopped");
+                        currentAction = 0;
+                    }
+                } else {
+                    continue;
+                }
+            }
         }
     }
 }
