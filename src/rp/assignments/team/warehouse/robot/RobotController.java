@@ -1,6 +1,5 @@
 package rp.assignments.team.warehouse.robot;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -24,17 +23,19 @@ public class RobotController {
     private int currentCarryingCount;
 
     private boolean hasPickedUpAllItems;
+    private boolean hasDroppedOffAllItems;
     private boolean cancelledJob;
 
     public RobotController(RobotCommunicationsManager communicationsManager) {
         this.communicationsManager = communicationsManager;
-        this.robotMotionController  = new RobotMotionController(communicationsManager);
-        
+        this.robotMotionController = new RobotMotionController(communicationsManager);
+
 //        this.robotInterface = new RobotInterface();
 
         this.instructionQueue = new Queue<>();
         this.currentWeight = 0;
         this.hasPickedUpAllItems = false;
+        this.hasDroppedOffAllItems = true;
     }
 
     public void run() {
@@ -49,18 +50,21 @@ public class RobotController {
             }
 
             if (instructionQueue.isEmpty()) {
-                // we can assume the robot has reached it's destination
+
+                // TODO route planning is going to have some indefinite waiting periods so we need a check here for that
+                // TODO might be an idea to send pickup/drop off as an instruction
+
                 if (!hasPickedUpAllItems) {
                     robotInterface.pickUpAmountInLocation(currentPickCount);
                     hasPickedUpAllItems = true;
-                } else {
+                } else if (!hasDroppedOffAllItems) {
                     robotInterface.dropOffAmountInLocation(currentCarryingCount);
                     hasPickedUpAllItems = false;
                 }
 
                 communicationsManager.sendDone();
             } else {
-                Instruction instruction = (Instruction)instructionQueue.pop();
+                Instruction instruction = (Instruction) instructionQueue.pop();
 
                 switch (instruction) {
                     case FORWARDS:
@@ -87,11 +91,13 @@ public class RobotController {
     }
 
     public void addInstructionToQueue(Instruction instruction) {
-        this.instructionQueue.addElement(instruction);
+        this.instructionQueue.push(instruction);
     }
 
     public void addInstructionToQueue(List<Instruction> instructions) {
-  //      instructions.forEach(i -> this.instructionQueue.offer(i));
+        for (Instruction i : instructions) {
+            this.instructionQueue.push(i);
+        }
     }
 
     public void cancelJob() {
