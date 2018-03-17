@@ -2,6 +2,7 @@ package rp.assignments.team.warehouse.robot;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
+import lejos.nxt.comm.Bluetooth;
 
 import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsManager;
 
@@ -13,7 +14,7 @@ public class Robot {
         while (continueRunning) {
             LCD.clear();
 
-            System.out.println("Hello, I am robotname");
+            System.out.println("Hello, I am " + Bluetooth.getFriendlyName());
             System.out.println("Connecting to server...");
 
             RobotCommunicationsManager communicationsManager = new RobotCommunicationsManager();
@@ -28,6 +29,7 @@ public class Robot {
 
             System.out.println("Server has been disconnect");
             System.out.println("Press ENTER button to restart, ESCAPE button to quit");
+
             Button.waitForAnyPress();
             if (Button.ESCAPE.isDown()) {
                 continueRunning = false;
