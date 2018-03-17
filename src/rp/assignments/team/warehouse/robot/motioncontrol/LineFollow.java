@@ -75,8 +75,10 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
         else if (currentAction == 3) {
             DP.travel(8);
             DP.rotate(180);
+        }
             
-        } else if (currentAction == 4) {
+        //Stop    
+        else if (currentAction == 4) {
             robotCommunicationsManager.setRobotAtPickUpLocation(true);
             if (gui.getAmountToPickInLocation() == robotCommunicationsManager.getNumOfPicks()) {
                 robotCommunicationsManager.setRobotAtDropOutLocation(true);
@@ -110,22 +112,22 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
                 Motor.A.setSpeed(pid.rightSpeed);
                 Motor.B.setSpeed(pid.leftSpeed);
             }
-            Boolean check = junctionReached(junctionValue);
-            if (check) {
-                DP.stop();
-
-                if (listIterate.hasNext()) {
-                    currentAction = listIterate.next();
-                    getAction(currentAction);
-
-                    if (currentAction == 4) {
-                        System.out.println("Successfully stopped");
-                        currentAction = 0;
-                    }
-                } else {
-                    continue;
-                }
-            }
+//            Boolean check = junctionReached(junctionValue);
+//            if (check) {
+//                DP.stop();
+//
+//                if (listIterate.hasNext()) {
+//                    currentAction = listIterate.next();
+//                    getAction(currentAction);
+//
+//                    if (currentAction == 4) {
+//                        System.out.println("Successfully stopped");
+//                        currentAction = 0;
+//                    }
+//                } else {
+//                    continue;
+//                }
+//            }
         }
     }
 }

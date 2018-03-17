@@ -9,7 +9,6 @@ public class RobotMotionController implements IRobotMotionController {
     LineFollow lf = new LineFollow(DP, SensorPort.S1, SensorPort.S2, SensorPort.S4);
 
 	public RobotMotionController() {
-		Calibrate.run();
 		DP = new DifferentialPilot(5.5f, 12.4f, Motor.A, Motor.B);
         lf.run();
 	}
@@ -27,18 +26,15 @@ public class RobotMotionController implements IRobotMotionController {
 	@Override
 	public void turnRight() {
 		lf.getAction(1);
-
 	}
 
 	@Override
 	public void turnAround() {
 		lf.getAction(3);
-
 	}
 
 	@Override
 	public void stop() {
 		lf.getAction(4);
-
 	}
 }
