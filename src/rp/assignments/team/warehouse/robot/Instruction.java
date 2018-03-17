@@ -23,9 +23,19 @@ public enum Instruction {
     BACKWARDS(3),
 
     /**
-     * Tells the robot to stop
+     * Tells the robot to stop for a designated amount of time
      */
-    STOP(4);
+    STOP(4),
+
+    /**
+     * Tells the robot to pick up the items
+     */
+    PICKUP(5),
+
+    /**
+     * Tells the robot to drop off the items
+     */
+    DROPOFF(6);
 
     private final Integer value;
 

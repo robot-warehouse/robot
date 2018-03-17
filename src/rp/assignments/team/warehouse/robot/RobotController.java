@@ -49,21 +49,7 @@ public class RobotController {
                 this.currentCarryingCount = 0;
             }
 
-            if (instructionQueue.isEmpty()) {
-
-                // TODO route planning is going to have some indefinite waiting periods so we need a check here for that
-                // TODO might be an idea to send pickup/drop off as an instruction
-
-                if (!hasPickedUpAllItems) {
-                    robotInterface.pickUpAmountInLocation(currentPickCount);
-                    hasPickedUpAllItems = true;
-                } else if (!hasDroppedOffAllItems) {
-                    robotInterface.dropOffAmountInLocation(currentCarryingCount);
-                    hasPickedUpAllItems = false;
-                }
-
-                communicationsManager.sendDone();
-            } else {
+            if (!instructionQueue.isEmpty()) {
                 Instruction instruction = (Instruction) instructionQueue.pop();
 
                 switch (instruction) {
@@ -84,6 +70,14 @@ public class RobotController {
                         break;
                     case STOP:
                         this.robotMotionController.stop();
+                        break;
+                    case PICKUP:
+                        robotInterface.pickUpAmountInLocation(currentPickCount);
+                        this.communicationsManager.sendDone();
+                        break;
+                    case DROPOFF:
+                        robotInterface.dropOffAmountInLocation(currentCarryingCount);
+                        this.communicationsManager.sendDone();
                         break;
                 }
             }
