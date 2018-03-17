@@ -31,7 +31,7 @@ public class RobotController {
 //        this.robotMotionController  = new RobotMotionController();
 //        this.robotInterface = new RobotInterface();
 
-        this.instructionQueue = new LinkedList<>();
+        this.instructionQueue = new Queue<Instruction>();
         this.currentWeight = 0;
         this.hasPickedUpAllItems = false;
     }
@@ -42,7 +42,7 @@ public class RobotController {
             assert this.currentWeight <= this.MAXIMUM_WEIGHT;
 
             if (cancelledJob) {
-                this.instructionQueue = new LinkedList<>();
+                this.instructionQueue = new Queue<Instruction>();
                 this.cancelledJob = false;
                 this.currentCarryingCount = 0;
             }
@@ -59,7 +59,7 @@ public class RobotController {
 
                 communicationsManager.sendDone();
             } else {
-                Instruction instruction = instructionQueue.poll();
+                Instruction instruction = (Instruction) instructionQueue.pop();
 
                 switch (instruction) {
                     case FORWARDS:
@@ -86,11 +86,13 @@ public class RobotController {
     }
 
     public void addInstructionToQueue(Instruction instruction) {
-        this.instructionQueue.offer(instruction);
+        this.instructionQueue.push(instruction);
     }
 
     public void addInstructionToQueue(List<Instruction> instructions) {
-        instructions.forEach(i -> this.instructionQueue.offer(i));
+        for (Instruction i : instructions) {
+            this.instructionQueue.push(i);
+        }
     }
 
     public void cancelJob() {
