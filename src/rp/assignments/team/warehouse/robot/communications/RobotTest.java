@@ -7,7 +7,6 @@ public class RobotTest {
 
     public static void main(String[] args) throws InterruptedException {
         RobotCommunicationsManager manager = new RobotCommunicationsManager();
-        manager.start();
         List<Integer> orders = manager.getOrders();
         while (true) {
             if (orders != null && !orders.isEmpty()) {

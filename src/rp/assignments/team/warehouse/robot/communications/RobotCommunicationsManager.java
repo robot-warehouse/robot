@@ -26,7 +26,7 @@ public class RobotCommunicationsManager {
             this.connected = true;
             System.out.println("Connected");
 
-            receiver = new RobotReceiver(connection.openDataInputStream());
+            receiver = new RobotReceiver(connection.openDataInputStream(),this);
             sender = new RobotSender(connection.openDataOutputStream());
 
             receiver.start();
@@ -45,7 +45,7 @@ public class RobotCommunicationsManager {
      * @return boolean
      */
     public boolean isConnected() {
-        return this.connected;
+        return receiver.getConnected();
     }
 
     /**
@@ -84,6 +84,22 @@ public class RobotCommunicationsManager {
      */
     public boolean isCancelled() {
         return receiver.isCancelled();
+    }
+    
+    public void attemptReconnect() {
+    	this.connected = false;
+    	System.out.println("PC closed the connection, waiting for new connection...");
+    	NXTConnection connection = Bluetooth.waitForConnection();
+    	if(connection.openDataInputStream() != null) {
+    		System.out.println("Reconnected to PC");
+        	receiver.setDataInputStream(connection.openDataInputStream());
+        	receiver.setConnected(true);
+        	this.connected = true;
+    	}
+    	else {
+    		System.out.println("Could not reconnect to the server");
+    	}
+    	
     }
 
     //------------------------------------------------------------------

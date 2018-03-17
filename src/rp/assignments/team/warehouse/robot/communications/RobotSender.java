@@ -11,6 +11,10 @@ public class RobotSender {
     public RobotSender(DataOutputStream toServer) {
         this.toServer = toServer;
     }
+    
+    public void setDataOutputStream(DataOutputStream toServer) {
+    	this.toServer = toServer;
+    }
 
     public void sendPosition(int x, int y) {
         try {
@@ -20,10 +24,10 @@ public class RobotSender {
             toServer.flush();
             System.out.println("Sent (" + x + "," + y + ")");
         } catch (IOException e) {
-            System.err.println("Something went wrong with the server");
+            System.out.println("Something went wrong with the server");
             e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("General exception");
+            System.out.println("General exception");
         }
     }
 
@@ -32,7 +36,7 @@ public class RobotSender {
             toServer.writeUTF(Command.FINISHED_JOB.toString());
             toServer.flush();
         } catch (IOException e) {
-            System.out.println("io");
+            System.out.println("Something went wrong with the server");
         }
     }
 }
