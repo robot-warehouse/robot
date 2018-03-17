@@ -5,7 +5,7 @@ import java.util.List;
 
 public class RobotTest {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         RobotCommunicationsManager manager = new RobotCommunicationsManager();
         List<Integer> orders = manager.getOrders();
         while (true) {

@@ -15,22 +15,22 @@ public class Path {
 
     public Path(RobotCommunicationsManager rm) {
         this.rm = rm;
-        while (pathList.isEmpty()) {
-            pathList.addAll(rm.getOrders());
+        while (this.pathList.isEmpty()) {
+            this.pathList.addAll(rm.getOrders());
         }
     }
 
     //Returns the pathList
     public List<Integer> getPathList() {
-        return pathList;
+        return this.pathList;
     }
 
     public void refreshPath() {
-        pathList.clear();
-        while (pathList.isEmpty()) {
-            pathList.addAll(rm.getOrders());
+        this.pathList.clear();
+        while (this.pathList.isEmpty()) {
+            this.pathList.addAll(this.rm.getOrders());
         }
 
-        System.out.println("New path: " + pathList.toString());
+        System.out.println("New path: " + this.pathList.toString());
     }
 }

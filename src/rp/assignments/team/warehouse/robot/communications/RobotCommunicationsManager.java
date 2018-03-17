@@ -26,10 +26,10 @@ public class RobotCommunicationsManager {
             this.connected = true;
             System.out.println("Connected");
 
-            receiver = new RobotReceiver(connection.openDataInputStream(),this);
-            sender = new RobotSender(connection.openDataOutputStream());
+            this.receiver = new RobotReceiver(connection.openDataInputStream(), this);
+            this.sender = new RobotSender(connection.openDataOutputStream());
 
-            receiver.start();
+            this.receiver.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,7 +45,7 @@ public class RobotCommunicationsManager {
      * @return boolean
      */
     public boolean isConnected() {
-        return receiver.getConnected();
+        return this.receiver.getConnected();
     }
 
     /**
@@ -55,7 +55,7 @@ public class RobotCommunicationsManager {
      * @param y Y co-ordinate of robot
      */
     public void sendPosition(int x, int y) {
-        sender.sendPosition(x, y);
+        this.sender.sendPosition(x, y);
     }
 
     /**
@@ -64,8 +64,7 @@ public class RobotCommunicationsManager {
      * @return A list of orders sent from the server. Returns empty if no orders have been sent
      */
     public List<Integer> getOrders() {
-        return receiver.getOrders();
-
+        return this.receiver.getOrders();
     }
 
     /**
@@ -74,7 +73,7 @@ public class RobotCommunicationsManager {
      * @return The number of picks the robot should take.
      */
     public int getNumOfPicks() {
-        return receiver.getNumOfPicks();
+        return this.receiver.getNumOfPicks();
     }
 
     /**
@@ -83,23 +82,23 @@ public class RobotCommunicationsManager {
      * @return true if the current job is cancelled, false otherwise
      */
     public boolean isCancelled() {
-        return receiver.isCancelled();
+        return this.receiver.isCancelled();
     }
-    
+
     public void attemptReconnect() {
-    	this.connected = false;
-    	System.out.println("PC closed the connection, waiting for new connection...");
-    	NXTConnection connection = Bluetooth.waitForConnection();
-    	if(connection.openDataInputStream() != null) {
-    		System.out.println("Reconnected to PC");
-        	receiver.setDataInputStream(connection.openDataInputStream());
-        	receiver.setConnected(true);
-        	this.connected = true;
-    	}
-    	else {
-    		System.out.println("Could not reconnect to the server");
-    	}
-    	
+        this.connected = false;
+        System.out.println("PC closed the connection, waiting for new connection...");
+        NXTConnection connection = Bluetooth.waitForConnection();
+
+        if (connection.openDataInputStream() != null) {
+            System.out.println("Reconnected to PC");
+
+            this.receiver.setDataInputStream(connection.openDataInputStream());
+            this.receiver.setConnected(true);
+            this.connected = true;
+        } else {
+            System.out.println("Could not reconnect to the server");
+        }
     }
 
     //------------------------------------------------------------------
@@ -108,15 +107,15 @@ public class RobotCommunicationsManager {
      * Sends to the server that the current job has been completed
      */
     public void sendDone() {
-        sender.sendDone();
+        this.sender.sendDone();
     }
 
     public void resetOrders() {
-        receiver.resetOrders();
+        this.receiver.resetOrders();
     }
 
     public boolean isRobotAtPickUpLocation() {
-        return robotAtPickUpLocation;
+        return this.robotAtPickUpLocation;
     }
 
     public void setRobotAtPickUpLocation(boolean robotAtPickUpLocation) {
@@ -124,7 +123,7 @@ public class RobotCommunicationsManager {
     }
 
     public boolean isRobotAtDropOutLocation() {
-        return robotAtDropOutLocation;
+        return this.robotAtDropOutLocation;
     }
 
     public void setRobotAtDropOutLocation(boolean robotAtDropOutLocation) {

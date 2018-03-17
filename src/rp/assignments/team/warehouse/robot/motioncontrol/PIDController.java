@@ -30,15 +30,17 @@ public class PIDController {
     }
 
     public void run() {
-        lightValue = lightSensor.getLightValue();
-        errorSignal = targetValue - lightValue;
+        this.lightValue = this.lightSensor.getLightValue();
+        this.errorSignal = this.targetValue - this.lightValue;
 
-        integral *= 0.98;
-        integral += errorSignal;
-        derivative = errorSignal - lastError;
-        lastError = errorSignal;
+        this.integral *= 0.98;
+        this.integral += this.errorSignal;
+        this.derivative = this.errorSignal - this.lastError;
+        this.lastError = this.errorSignal;
 
-        leftSpeed = baseSpeed + (Kp * errorSignal) + (Ki * integral) + (Kd * derivative);
-        rightSpeed = baseSpeed - (Kp * errorSignal) + (Ki * integral) + (Kd * derivative);
+        this.leftSpeed = this.baseSpeed + (this.Kp * this.errorSignal) + (this.Ki * this.integral) + (this.Kd * this
+                .derivative);
+        this.rightSpeed = this.baseSpeed - (this.Kp * this.errorSignal) + (this.Ki * this.integral) + (this.Kd * this
+                .derivative);
     }
 }

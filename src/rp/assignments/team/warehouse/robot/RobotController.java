@@ -39,14 +39,14 @@ public class RobotController {
 
             assert this.currentWeight <= this.MAXIMUM_WEIGHT;
 
-            if (cancelledJob) {
+            if (this.cancelledJob) {
                 this.instructionQueue = new Queue<>();
                 this.cancelledJob = false;
                 this.currentCarryingCount = 0;
             }
 
-            if (!instructionQueue.isEmpty()) {
-                Instruction instruction = (Instruction) instructionQueue.pop();
+            if (!this.instructionQueue.isEmpty()) {
+                Instruction instruction = (Instruction) this.instructionQueue.pop();
 
                 switch (instruction) {
                     case FORWARDS:
@@ -68,11 +68,11 @@ public class RobotController {
                         this.robotMotionController.stop();
                         break;
                     case PICKUP:
-                        this.robotInterface.pickUpAmountInLocation(currentPickCount);
+                        this.robotInterface.pickUpAmountInLocation(this.currentPickCount);
                         this.communicationsManager.sendDone();
                         break;
                     case DROPOFF:
-                        this.robotInterface.dropOffAmountInLocation(currentCarryingCount);
+                        this.robotInterface.dropOffAmountInLocation(this.currentCarryingCount);
                         this.communicationsManager.sendDone();
                         break;
                 }

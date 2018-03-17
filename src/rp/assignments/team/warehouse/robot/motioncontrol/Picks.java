@@ -9,12 +9,12 @@ public class Picks {
 
     public Picks(RobotCommunicationsManager rm) {
         this.rm = rm;
-        pickNumber = rm.getNumOfPicks();
+        this.pickNumber = rm.getNumOfPicks();
     }
 
     // Returns the number of picks
     public int getPickNumber() {
-        pickNumber = rm.getNumOfPicks();
-        return pickNumber;
+        this.pickNumber = this.rm.getNumOfPicks();
+        return this.pickNumber;
     }
 }

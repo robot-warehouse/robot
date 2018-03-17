@@ -4,38 +4,28 @@ package rp.assignments.team.warehouse.robot.communications;
  * Type of command being sent to/from robot
  */
 public enum Command {
-    /**
-     * Tell the robot to start reading orders
-     */
+    /** Tell the robot to start reading orders */
     SEND_ORDERS,
-    /**
-     * Cancel the current set of orders
-     */
+
+    /** Cancel the current set of orders */
     CANCEL,
-    /**
-     * Send the position of the robot to the pc
-     */
+
+    /** Send the position of the robot to the pc */
     SEND_POSITION,
-    /**
-     * Current job has been completed.
-     */
+
+    /** Current job has been completed */
     FINISHED_JOB,
 
-    /**
-     * Send the number of the picks
-     */
+    /** Send the number of the picks */
     SEND_PICKS,
-    /**
-     * End of current sequence of messages
-     */
+
+    /** End of current sequence of messages */
     END,
-    /**
-     * Disconnect the robot from the server
-     */
+
+    /** Disconnect the robot from the server */
     DISCONNECT,
-    /**
-     * Attempt to reconnect with a robot.
-     */
+
+    /** Attempt to reconnect with a robot */
     RECONNECT;
 
     public static Command strToCommand(String s) throws NullPointerException, IllegalArgumentException {

@@ -3,13 +3,14 @@ package rp.assignments.team.warehouse.robot.motioncontrol;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 import lejos.robotics.navigation.DifferentialPilot;
+
 import rp.systems.RobotProgrammingDemo;
 import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsManager;
-import rp.assignments.team.warehouse.robot.communications.RobotManager;
 import rp.assignments.team.warehouse.robot.gui.rbtInterface;
 
 /**
@@ -28,96 +29,95 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
     private Boolean isAtPickupLocation;
     private Path path;
     private Picks picks;
-    private RobotManager manager;
     private ListIterator<Integer> listIterate;
     private int pickNumber;
     private List<Integer> instructionSet;
 
-    public LineFollow(DifferentialPilot DP, SensorPort port1, SensorPort port2, SensorPort port4, RobotCommunicationsManager commsManager) {
+    public LineFollow(DifferentialPilot DP, SensorPort port1, SensorPort port2, SensorPort port4,
+                      RobotCommunicationsManager commsManager) {
         this.DP = DP;
-        robotCommunicationsManager = commsManager;
-        manager = new RobotManager();
-        path = new Path(robotCommunicationsManager);
-        picks = new Picks(robotCommunicationsManager);
-        light1 = new LightController(port1);
-        light2 = new LightController(port2);
-        light4 = new LightController(port4);
-        gui = new rbtInterface(robotCommunicationsManager);
-        instructionSet = new ArrayList<>();
+        this.robotCommunicationsManager = commsManager;
+        this.path = new Path(this.robotCommunicationsManager);
+        this.picks = new Picks(this.robotCommunicationsManager);
+        this.light1 = new LightController(port1);
+        this.light2 = new LightController(port2);
+        this.light4 = new LightController(port4);
+        this.gui = new rbtInterface(this.robotCommunicationsManager);
+        this.instructionSet = new ArrayList<>();
     }
 
     @Override
     public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {}
 
     public boolean junctionReached(int juncValue) {
-        return light1.getLightValue() <= juncValue && light4.getLightValue() <= juncValue;
+        return this.light1.getLightValue() <= juncValue && this.light4.getLightValue() <= juncValue;
     }
 
     public void getAction(int currentAction) {
         //Turns Left
         if (currentAction == 0) {
-            DP.travel(8);
-            DP.rotate(-90);
+            this.DP.travel(8);
+            this.DP.rotate(-90);
         }
 
         //Turns Right
         else if (currentAction == 1) {
-            DP.travel(8);
-            DP.rotate(90);
+            this.DP.travel(8);
+            this.DP.rotate(90);
         }
 
         //Straight
         else if (currentAction == 2) {
-            DP.travel(8);
+            this.DP.travel(8);
         }
 
         //Backwards
         else if (currentAction == 3) {
-            DP.travel(8);
-            DP.rotate(180);
+            this.DP.travel(8);
+            this.DP.rotate(180);
         }
-            
+
         //Stop    
         else if (currentAction == 4) {
-            robotCommunicationsManager.setRobotAtPickUpLocation(true);
-            if (gui.getAmountToPickInLocation() == robotCommunicationsManager.getNumOfPicks()) {
-                robotCommunicationsManager.setRobotAtDropOutLocation(true);
-                robotCommunicationsManager.setRobotAtPickUpLocation(false);
+            this.robotCommunicationsManager.setRobotAtPickUpLocation(true);
+            if (this.gui.getAmountToPickInLocation() == this.robotCommunicationsManager.getNumOfPicks()) {
+                this.robotCommunicationsManager.setRobotAtDropOutLocation(true);
+                this.robotCommunicationsManager.setRobotAtPickUpLocation(false);
             }
 
-            gui.updateLCDScreen();
+            this.gui.updateLCDScreen();
             System.out.println("finished stopping");
             System.out.println("Starting stopping");
-            robotCommunicationsManager.resetOrders();
-            robotCommunicationsManager.sendDone();
-            path.refreshPath();
-            instructionSet = path.getPathList();
-            System.out.println(path.getPathList());
-            listIterate = instructionSet.listIterator();
+            this.robotCommunicationsManager.resetOrders();
+            this.robotCommunicationsManager.sendDone();
+            this.path.refreshPath();
+            this.instructionSet = this.path.getPathList();
+            System.out.println(this.path.getPathList());
+            this.listIterate = this.instructionSet.listIterator();
         }
     }
 
     @Override
     public void run() {
-        DP.setTravelSpeed(150);
-        PIDController pid = new PIDController(targetValue, light2, (float) DP.getTravelSpeed(), DP);
+        this.DP.setTravelSpeed(150);
+        PIDController pid = new PIDController(this.targetValue, this.light2, (float) this.DP.getTravelSpeed(), this.DP);
         int currentAction = 0;
-        instructionSet = path.getPathList();
-        listIterate = instructionSet.listIterator();
-        System.out.println(instructionSet.get(0));
-        while (m_run) {
+        this.instructionSet = this.path.getPathList();
+        this.listIterate = this.instructionSet.listIterator();
+        System.out.println(this.instructionSet.get(0));
+        while (this.m_run) {
             if (currentAction != 4) {
                 pid.run();
-                DP.forward();
+                this.DP.forward();
                 Motor.A.setSpeed(pid.rightSpeed);
                 Motor.B.setSpeed(pid.leftSpeed);
             }
-            Boolean check = junctionReached(junctionValue);
+            Boolean check = junctionReached(this.junctionValue);
             if (check) {
-                DP.stop();
+                this.DP.stop();
 
-                if (listIterate.hasNext()) {
-                    currentAction = listIterate.next();
+                if (this.listIterate.hasNext()) {
+                    currentAction = this.listIterate.next();
                     getAction(currentAction);
 
                     if (currentAction == 4) {

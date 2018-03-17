@@ -37,28 +37,28 @@ public class LightController {
     private int filter(int sensorLight) {
         if (sensorLight >= MAX_LIGHT) {
             // sensor reading is at an extreme, and may need to be filtered
-            if (filterCount > FILTER_AMOUNT) {
+            if (this.filterCount > FILTER_AMOUNT) {
                 // sensor really is at the min / max distance
-                filterCount = 0;
+                this.filterCount = 0;
                 return getExtremeLight();
             } else {
 
                 // extreme sensor reading cannot be trusted
-                filterCount++;
-                return light;
+                this.filterCount++;
+                return this.light;
             }
         }
-        filterCount = 0; // resets counter
+        this.filterCount = 0; // resets counter
         return sensorLight;
     }
 
     private int getExtremeLight() {
-        return filterToMax ? MAX_LIGHT : MIN_LIGHT;
+        return this.filterToMax ? MAX_LIGHT : MIN_LIGHT;
     }
 
     public int getLightValue() {
-        int realDistance = filter(lightSensor.getLightValue());
+        int realDistance = filter(this.lightSensor.getLightValue());
         saveLight(realDistance);
-        return light;
+        return this.light;
     }
 }
