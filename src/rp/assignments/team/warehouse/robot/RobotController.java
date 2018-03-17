@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsManager;
 import rp.assignments.team.warehouse.robot.gui.IRobotInterface;
+import rp.assignments.team.warehouse.robot.gui.RobotInterface;
 import rp.assignments.team.warehouse.robot.motioncontrol.IRobotMotionController;
 import rp.assignments.team.warehouse.robot.motioncontrol.RobotMotionController;
 
@@ -46,7 +47,7 @@ public class RobotController {
         this.communicationsManager = communicationsManager;
 
         this.robotMotionController = new RobotMotionController(communicationsManager);
-//        this.robotInterface = new RobotInterface();
+        this.robotInterface = new RobotInterface();
 
         this.instructionQueue = new Queue<>();
         this.currentWeight = 0;
