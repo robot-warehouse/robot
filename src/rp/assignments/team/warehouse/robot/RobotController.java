@@ -8,8 +8,12 @@ import rp.assignments.team.warehouse.robot.gui.IRobotInterface;
 import rp.assignments.team.warehouse.robot.gui.RobotInterface;
 import rp.assignments.team.warehouse.robot.motioncontrol.IRobotMotionController;
 import rp.assignments.team.warehouse.robot.motioncontrol.RobotMotionController;
+import rp.assignments.team.warehouse.shared.Instruction;
 
 public class RobotController {
+    
+    /** The number of milliseconds to wait when executing a {@link Instruction#STOP}. */
+    public static final int STOP_WAIT_TIME = 0;
 
     /** The maximum weight a robot can carry at any one time */
     private final int MAXIMUM_WEIGHT = 50;

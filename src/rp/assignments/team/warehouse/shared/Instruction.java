@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.robot;
+package rp.assignments.team.warehouse.shared;
 
 public enum Instruction {
 
@@ -23,7 +23,7 @@ public enum Instruction {
     BACKWARDS(3),
 
     /**
-     * Tells the robot to stop for a designated amount of time
+     * Tells the robot to stop for a period of time given by {@link rp.assignments.team.warehouse.robot.RobotController#STOP_WAIT_TIME}.
      */
     STOP(4),
 

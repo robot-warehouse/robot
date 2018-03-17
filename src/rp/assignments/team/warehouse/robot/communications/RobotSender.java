@@ -3,6 +3,8 @@ package rp.assignments.team.warehouse.robot.communications;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import rp.assignments.team.warehouse.shared.communications.Command;
+
 
 public class RobotSender {
 

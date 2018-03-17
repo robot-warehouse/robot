@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import rp.assignments.team.warehouse.shared.communications.Command;
+
 /*
  * Receives messages from the server
  */
