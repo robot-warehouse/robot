@@ -3,6 +3,9 @@ package rp.assignments.team.warehouse.robot.motioncontrol;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 
+/**
+ * @author Qasim Nawaz
+ */
 public class LightController {
 
     // maximum and minimum sensor distance readings

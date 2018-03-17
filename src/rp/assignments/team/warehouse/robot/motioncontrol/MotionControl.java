@@ -8,6 +8,9 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 import rp.systems.RobotProgrammingDemo;
 
+/**
+ * @author Qasim Nawaz
+ */
 public class MotionControl extends RobotProgrammingDemo implements SensorPortListener {
 
     private static DifferentialPilot DP;

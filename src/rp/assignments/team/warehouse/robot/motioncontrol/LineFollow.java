@@ -3,21 +3,22 @@ package rp.assignments.team.warehouse.robot.motioncontrol;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 import lejos.robotics.navigation.DifferentialPilot;
-
 import rp.systems.RobotProgrammingDemo;
 import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsManager;
 import rp.assignments.team.warehouse.robot.communications.RobotManager;
 import rp.assignments.team.warehouse.robot.gui.rbtInterface;
 
+/**
+ * @author Qasim Nawaz
+ */
 public class LineFollow extends RobotProgrammingDemo implements SensorPortListener {
 
-    private final int targetValue = 34;
-    private final int junctionValue = 45;
+    private final int targetValue = Calibrate.middleLine; //NAMELESS 35; //TRIHARD 35; //JOHNCENA 34;
+    private final int junctionValue = Calibrate.juncAvg; //NAMELESS 34; //TRIHARD 34; //JOHNCENA 45;
     private DifferentialPilot DP;
     private LightController light1;
     private LightController light2;
@@ -74,6 +75,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
         else if (currentAction == 3) {
             DP.travel(8);
             DP.rotate(180);
+            
         } else if (currentAction == 4) {
             robotCommunicationsManager.setRobotAtPickUpLocation(true);
             if (gui.getAmountToPickInLocation() == robotCommunicationsManager.getNumOfPicks()) {
