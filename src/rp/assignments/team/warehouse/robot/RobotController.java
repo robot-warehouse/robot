@@ -22,20 +22,16 @@ public class RobotController {
     private int currentPickCount;
     private int currentCarryingCount;
 
-    private boolean hasPickedUpAllItems;
-    private boolean hasDroppedOffAllItems;
     private boolean cancelledJob;
 
     public RobotController(RobotCommunicationsManager communicationsManager) {
         this.communicationsManager = communicationsManager;
-        this.robotMotionController = new RobotMotionController(communicationsManager);
 
+        this.robotMotionController = new RobotMotionController(communicationsManager);
 //        this.robotInterface = new RobotInterface();
 
         this.instructionQueue = new Queue<>();
         this.currentWeight = 0;
-        this.hasPickedUpAllItems = false;
-        this.hasDroppedOffAllItems = true;
     }
 
     public void run() {
@@ -72,11 +68,11 @@ public class RobotController {
                         this.robotMotionController.stop();
                         break;
                     case PICKUP:
-                        robotInterface.pickUpAmountInLocation(currentPickCount);
+                        this.robotInterface.pickUpAmountInLocation(currentPickCount);
                         this.communicationsManager.sendDone();
                         break;
                     case DROPOFF:
-                        robotInterface.dropOffAmountInLocation(currentCarryingCount);
+                        this.robotInterface.dropOffAmountInLocation(currentCarryingCount);
                         this.communicationsManager.sendDone();
                         break;
                 }
