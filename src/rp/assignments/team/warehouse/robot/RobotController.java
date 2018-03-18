@@ -12,7 +12,7 @@ import rp.assignments.team.warehouse.shared.Facing;
 import rp.assignments.team.warehouse.shared.Instruction;
 
 public class RobotController {
-    
+
     /** The number of milliseconds to wait when executing a {@link Instruction#STOP}. */
     public static final int STOP_WAIT_TIME = 0;
 
@@ -81,22 +81,22 @@ public class RobotController {
             if (!this.instructionQueue.isEmpty()) {
                 Instruction instruction = (Instruction) this.instructionQueue.pop();
 
-                // TODO update location and facing and then send to server
                 switch (instruction) {
                     case FORWARDS:
                         this.robotMotionController.moveForwards();
                         break;
                     case LEFT:
                         this.robotMotionController.takeLeftExit();
-                        this.robotMotionController.moveForwards();
+                        this.currentFacing = this.currentFacing.turnLeft();
                         break;
                     case RIGHT:
                         this.robotMotionController.takeRightExit();
-                        this.robotMotionController.moveForwards();
+                        this.currentFacing = this.currentFacing.turnRight();
                         break;
                     case BACKWARDS:
                         this.robotMotionController.takeRearExit();
-                        this.robotMotionController.moveForwards();
+                        this.currentFacing = this.currentFacing.turnRight();
+                        this.currentFacing = this.currentFacing.turnRight();
                         break;
                     case STOP:
                         this.robotMotionController.holdUp();
@@ -110,7 +110,30 @@ public class RobotController {
                         this.communicationsManager.sendDone();
                         break;
                 }
+
+                this.currentLocation = getNewCurrentLocation();
+
+                this.communicationsManager.sendPosition(this.currentLocation.getX(), this.currentLocation.getY());
+                this.communicationsManager.sendFacing(this.currentFacing);
             }
+        }
+    }
+
+    /**
+     * Uses the current facing direction to figure out the new current location
+     *
+     * @return The new current location
+     */
+    private Location getNewCurrentLocation() {
+        switch (this.currentFacing) {
+            case NORTH:
+                return this.currentLocation.incrementY();
+            case SOUTH:
+                return this.currentLocation.decrementY();
+            case EAST:
+                return this.currentLocation.incrementX();
+            case WEST:
+                return this.currentLocation.decrementX();
         }
     }
 
