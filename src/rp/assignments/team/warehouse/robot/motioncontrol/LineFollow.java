@@ -109,8 +109,8 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
             if (currentAction != 4) {
                 pid.run();
                 this.DP.forward();
-                Motor.A.setSpeed(pid.rightSpeed);
-                Motor.B.setSpeed(pid.leftSpeed);
+                Motor.A.setSpeed(pid.getRightSpeed());
+                Motor.B.setSpeed(pid.getLeftSpeed());
             }
             Boolean check = junctionReached(this.junctionValue);
             if (check) {
