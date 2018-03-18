@@ -7,6 +7,7 @@ import lejos.util.Delay;
 
 import rp.robotics.DifferentialDriveRobot;
 import rp.assignments.team.warehouse.robot.RobotConfiguration;
+import rp.assignments.team.warehouse.robot.RobotController;
 
 public class RobotMotionController implements IRobotMotionController {
 
@@ -59,7 +60,7 @@ public class RobotMotionController implements IRobotMotionController {
 
     @Override
     public void holdUp() {
-        Delay.msDelay(1000);
+        Delay.msDelay(RobotController.STOP_WAIT_TIME);
     }
 
     private boolean junctionReached() {

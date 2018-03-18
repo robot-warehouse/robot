@@ -50,7 +50,7 @@ public class RobotController {
     public RobotController(RobotCommunicationsManager communicationsManager) {
         this.communicationsManager = communicationsManager;
 
-        this.robotMotionController = new RobotMotionController(communicationsManager);
+        this.robotMotionController = new RobotMotionController();
         this.robotInterface = new RobotInterface();
 
         this.instructionQueue = new Queue<>();
