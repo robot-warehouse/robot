@@ -22,19 +22,18 @@ public class Robot {
             LCD.clear();
 
             System.out.println("Hello, I am " + Bluetooth.getFriendlyName());
+
+            RobotController robotController = new RobotController();
+
             System.out.println("Connecting to server...");
-
-            RobotCommunicationsManager communicationsManager = new RobotCommunicationsManager();
-
+            RobotCommunicationsManager communicationsManager = new RobotCommunicationsManager(robotController);
             System.out.println("Connected to server!");
 
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ignored) {}
 
-            RobotController robotController = new RobotController(communicationsManager);
-
-            communicationsManager.setController(robotController);
+            robotController.setCommunicationsManager(communicationsManager);
             robotController.startRunningRobot();
 
             System.out.println("Server has been disconnect");

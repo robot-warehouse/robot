@@ -80,8 +80,8 @@ public class Calibrate {
         return middleLine;
     }
 
-//    public static void main(String[] args) {
-//    	Calibrate c = new Calibrate();
-//    	Calibrate.run();
-//    }
+    //    public static void main(String[] args) {
+    //    	Calibrate c = new Calibrate();
+    //    	Calibrate.run();
+    //    }
 }

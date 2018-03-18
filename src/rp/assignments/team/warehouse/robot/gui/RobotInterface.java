@@ -3,7 +3,7 @@ package rp.assignments.team.warehouse.robot.gui;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 
-public class RobotInterface implements IRobotInterface{
+public class RobotInterface implements IRobotInterface {
 
     @Override
     public void pickUpAmountInLocation(int amount) {

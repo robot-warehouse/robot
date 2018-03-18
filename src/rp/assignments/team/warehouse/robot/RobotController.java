@@ -51,12 +51,8 @@ public class RobotController {
 
     /**
      * Initialises RobotController, setting up robot motion controller and robot interface classes
-     *
-     * @param communicationsManager Instance of the communications manager to send messages to the server through
      */
-    public RobotController(RobotCommunicationsManager communicationsManager) {
-        this.communicationsManager = communicationsManager;
-
+    public RobotController() {
         this.robotMotionController = new RobotMotionController();
         this.robotInterface = new RobotInterface();
 
@@ -65,9 +61,47 @@ public class RobotController {
     }
 
     /**
+     * Sets the instance of the communications manager
+     *
+     * @param communicationsManager The instance of the communications manager
+     */
+    public void setCommunicationsManager(RobotCommunicationsManager communicationsManager) {
+        this.communicationsManager = communicationsManager;
+    }
+
+    /**
+     * Sets the current number of items for the robot to pick up
+     *
+     * @param pickCount The number of items for the robot to pick up
+     */
+    public void setCurrentPickCount(int pickCount) {
+        this.currentPickCount = pickCount;
+    }
+
+    /**
+     * Adds a list of instruction objects to the instruction queue in order of the list
+     *
+     * @param instructions The list
+     */
+    public void addInstructionToQueue(List<Instruction> instructions) {
+        for (Instruction i : instructions) {
+            this.instructionQueue.push(i);
+        }
+    }
+
+    /**
+     * Flags the current job as cancelled
+     */
+    public void cancelJob() {
+        this.cancelledJob = true;
+    }
+
+    /**
      * The loop for the robot to run through while running in the warehouse
      */
     public void startRunningRobot() {
+        // TODO run localisation here?
+
         while (this.communicationsManager.isConnected()) {
 
             assert this.currentWeight <= this.MAXIMUM_WEIGHT;
@@ -113,7 +147,7 @@ public class RobotController {
 
                 this.currentLocation = getNewCurrentLocation();
 
-                this.communicationsManager.sendPosition(this.currentLocation.getX(), this.currentLocation.getY());
+                this.communicationsManager.sendLocation(this.currentLocation);
                 this.communicationsManager.sendFacing(this.currentFacing);
             }
         }
@@ -135,32 +169,7 @@ public class RobotController {
             case WEST:
                 return this.currentLocation.decrementX();
         }
-    }
 
-    /**
-     * Adds an instruction object to the instruction queue
-     *
-     * @param instruction The instruction object to add to the queue
-     */
-    public void addInstructionToQueue(Instruction instruction) {
-        this.instructionQueue.push(instruction);
-    }
-
-    /**
-     * Adds a list of instruction objects to the instruction queue in order of the list
-     *
-     * @param instructions The list
-     */
-    public void addInstructionToQueue(List<Instruction> instructions) {
-        for (Instruction i : instructions) {
-            this.instructionQueue.push(i);
-        }
-    }
-
-    /**
-     * Flags the current job as cancelled
-     */
-    public void cancelJob() {
-        this.cancelledJob = true;
+        return this.currentLocation;
     }
 }

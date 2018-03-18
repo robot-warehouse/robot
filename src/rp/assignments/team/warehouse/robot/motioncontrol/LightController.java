@@ -8,21 +8,23 @@ import lejos.nxt.SensorPort;
  */
 public class LightController {
 
-    // maximum and minimum sensor distance readings
-    private static final int MIN_LIGHT = 0;
+    /** maximum and minimum sensor distance readings */
     private static final int MAX_LIGHT = 100;
+    private static final int MIN_LIGHT = 0;
 
-    // the amount of times the filter needs to see a max reading
-    // before the reading can be trusted
+    /** the amount of times the filter needs to see a max reading before the reading can be trusted */
     private static final int FILTER_AMOUNT = 5;
 
-    // whether a max reading is actually a max, or really a min
-    public boolean filterToMax = true;
-
-    // saved distance in case the distance from the sensor is filtered
-    public int light;
-
+    /** */
     private LightSensor lightSensor;
+
+    /** whether a max reading is actually a max, or really a min */
+    private boolean filterToMax = true;
+
+    /** saved distance in case the distance from the sensor is filtered */
+    private int light;
+
+    /** */
     private int filterCount = 0;
 
     public LightController(SensorPort port) {
@@ -35,11 +37,6 @@ public class LightController {
         return this.light;
     }
 
-    private void saveLight(int light) {
-        this.filterToMax = light > 12;
-        this.light = light;
-    }
-
     private int filter(int sensorLight) {
         if (sensorLight >= MAX_LIGHT) {
             // sensor reading is at an extreme, and may need to be filtered
@@ -48,7 +45,6 @@ public class LightController {
                 this.filterCount = 0;
                 return getExtremeLight();
             } else {
-
                 // extreme sensor reading cannot be trusted
                 this.filterCount++;
                 return this.light;
@@ -56,6 +52,11 @@ public class LightController {
         }
         this.filterCount = 0; // resets counter
         return sensorLight;
+    }
+
+    private void saveLight(int light) {
+        this.filterToMax = light > 12;
+        this.light = light;
     }
 
     private int getExtremeLight() {

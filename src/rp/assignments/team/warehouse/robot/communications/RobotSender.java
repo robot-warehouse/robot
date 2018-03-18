@@ -3,6 +3,7 @@ package rp.assignments.team.warehouse.robot.communications;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import rp.assignments.team.warehouse.robot.Location;
 import rp.assignments.team.warehouse.shared.Facing;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
@@ -15,18 +16,14 @@ public class RobotSender {
         this.toServer = toServer;
     }
 
-    public void setDataOutputStream(DataOutputStream toServer) {
-        this.toServer = toServer;
-    }
-
-    public void sendPosition(int x, int y) {
+    public void sendLocation(Location location) {
         try {
             this.toServer.writeUTF(Command.SEND_POSITION.toString());
-            this.toServer.writeUTF(Integer.toString(x));
-            this.toServer.writeUTF(Integer.toString(y));
+            this.toServer.writeUTF(Integer.toString(location.getX()));
+            this.toServer.writeUTF(Integer.toString(location.getY()));
             this.toServer.flush();
 
-            System.out.println("Sent (" + x + "," + y + ")");
+            System.out.println("Sent (" + location.getX() + "," + location.getY() + ")");
         } catch (IOException e) {
             System.out.println("Something went wrong with the server");
             e.printStackTrace();
@@ -43,15 +40,15 @@ public class RobotSender {
             System.out.println("Something went wrong with the server");
         }
     }
-    
+
     public void sendFacing(Facing facing) {
-    	try {
-    		this.toServer.writeUTF(Command.SEND_FACING.toString());
-    		this.toServer.writeUTF(facing.toString());
-    		this.toServer.flush();
-    	} catch(IOException e) {
-    		System.out.println("Something went wrong with the server");
-    	}
+        try {
+            this.toServer.writeUTF(Command.SEND_FACING.toString());
+            this.toServer.writeUTF(facing.toString());
+            this.toServer.flush();
+        } catch (IOException e) {
+            System.out.println("Something went wrong with the server");
+        }
     }
-    
+
 }

@@ -25,7 +25,10 @@ public class RobotMotionController implements IRobotMotionController {
         this.lightSensorLeft = new LightController(SensorPort.S1);
         this.lightSensorMiddle = new LightController(SensorPort.S2);
         this.lightSensorRight = new LightController(SensorPort.S4);
-        this.pidController = new PIDController(this.targetValue, this.lightSensorMiddle, (float) this.differentialPilot.getTravelSpeed());
+        this.pidController = new PIDController(
+            this.targetValue,
+            this.lightSensorMiddle,
+            (float) this.differentialPilot.getTravelSpeed());
     }
 
     @Override
@@ -63,6 +66,11 @@ public class RobotMotionController implements IRobotMotionController {
         Delay.msDelay(RobotController.STOP_WAIT_TIME);
     }
 
+    /**
+     * Checks if both left and right light sensors are reading black
+     *
+     * @return True if a junction has been detected
+     */
     private boolean junctionReached() {
         return this.lightSensorLeft.getLightValue() <= this.junctionValue
             && this.lightSensorRight.getLightValue() <= this.junctionValue;

@@ -1,20 +1,17 @@
 package rp.assignments.team.warehouse.robot.motioncontrol;
 
-import lejos.robotics.navigation.DifferentialPilot;
-
 /**
  * @author Qasim Nawaz
  */
 public class PIDController {
 
-    private float leftSpeed;
-    private float rightSpeed;
-
-    private LightController lightSensor;
-
     private final float targetValue;
     private final float baseSpeed;
 
+    private LightController lightSensor;
+
+    private float leftSpeed;
+    private float rightSpeed;
     private float integral;
     private float lastError;
 
