@@ -6,6 +6,7 @@ import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
 
 import rp.assignments.team.warehouse.robot.RobotController;
+import rp.assignments.team.warehouse.shared.Facing;
 
 public class RobotCommunicationsManager {
 
@@ -108,6 +109,10 @@ public class RobotCommunicationsManager {
      */
     public void sendDone() {
         this.sender.sendDone();
+    }
+    
+    public void sendFacing(Facing facing) {
+    	this.sender.sendFacing(facing);
     }
 
     public void resetOrders() {

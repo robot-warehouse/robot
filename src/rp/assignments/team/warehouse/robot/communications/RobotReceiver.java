@@ -66,6 +66,7 @@ public class RobotReceiver extends Thread {
                     }
                 } catch (IOException e) {
                     System.out.println("Something went wrong with the server");
+                    this.communicationsManager.attemptReconnect();
                     break;
                 }
             }
