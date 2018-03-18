@@ -10,21 +10,21 @@ public interface IRobotMotionController {
     /**
      * Rotates the robot 90 degrees to the left
      */
-    public void turnLeft();
+    public void takeLeftExit();
 
     /**
      * Rotates the robot 90 degrees to the right
      */
-    public void turnRight();
+    public void takeRightExit();
 
     /**
      * Rotates the robot 180 degrees
      */
-    public void turnAround();
+    public void takeRearExit();
 
     /**
-     * Stops the robot at the junction (for a specified time maybe?)
+     * Stops the robot at the junction for a specified time
      */
-    public void stop();
+    public void holdUp();
 
 }

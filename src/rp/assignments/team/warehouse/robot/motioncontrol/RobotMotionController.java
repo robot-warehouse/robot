@@ -3,43 +3,67 @@ package rp.assignments.team.warehouse.robot.motioncontrol;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.robotics.navigation.DifferentialPilot;
+import lejos.util.Delay;
 
-import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsManager;
+import rp.robotics.DifferentialDriveRobot;
+import rp.assignments.team.warehouse.robot.RobotConfiguration;
 
 public class RobotMotionController implements IRobotMotionController {
 
-    private static DifferentialPilot DP;
-    LineFollow lf;
+    private final int targetValue = 34; //NAMELESS 35; //TRIHARD 35; //JOHNCENA 34;
+    private final int junctionValue = 37; //NAMELESS 34; //TRIHARD 34; //JOHNCENA 45;
+    private DifferentialPilot differentialPilot;
+    private LightController lightSensorLeft;
+    private LightController lightSensorMiddle;
+    private LightController lightSensorRight;
+    private PIDController pidController;
 
-    public RobotMotionController(RobotCommunicationsManager manager) {
-
-        DP = new DifferentialPilot(5.5f, 12.4f, Motor.A, Motor.B);
-        this.lf = new LineFollow(DP, SensorPort.S1, SensorPort.S2, SensorPort.S4, manager);
-        this.lf.run();
+    public RobotMotionController() {
+        DifferentialDriveRobot robot = new DifferentialDriveRobot(RobotConfiguration.ROBOT_CONFIG);
+        this.differentialPilot = robot.getDifferentialPilot();
+        this.lightSensorLeft = new LightController(SensorPort.S1);
+        this.lightSensorMiddle = new LightController(SensorPort.S2);
+        this.lightSensorRight = new LightController(SensorPort.S4);
+        this.pidController = new PIDController(this.targetValue, this.lightSensorMiddle, (float) this.differentialPilot.getTravelSpeed());
     }
 
     @Override
     public void moveForwards() {
-        this.lf.getAction(2);
+        while (!junctionReached()) {
+            this.pidController.run();
+            this.differentialPilot.forward();
+            Motor.A.setSpeed(this.pidController.getRightSpeed());
+            Motor.B.setSpeed(this.pidController.getLeftSpeed());
+        }
+
+        this.differentialPilot.stop();
     }
 
     @Override
-    public void turnLeft() {
-        this.lf.getAction(0);
+    public void takeLeftExit() {
+        this.differentialPilot.rotate(-90);
+        moveForwards();
     }
 
     @Override
-    public void turnRight() {
-        this.lf.getAction(1);
+    public void takeRightExit() {
+        this.differentialPilot.rotate(90);
+        moveForwards();
     }
 
     @Override
-    public void turnAround() {
-        this.lf.getAction(3);
+    public void takeRearExit() {
+        this.differentialPilot.rotate(180);
+        moveForwards();
     }
 
     @Override
-    public void stop() {
-        this.lf.getAction(4);
+    public void holdUp() {
+        Delay.msDelay(1000);
+    }
+
+    private boolean junctionReached() {
+        return this.lightSensorLeft.getLightValue() <= this.junctionValue
+            && this.lightSensorRight.getLightValue() <= this.junctionValue;
     }
 }

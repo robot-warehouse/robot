@@ -7,40 +7,45 @@ import lejos.robotics.navigation.DifferentialPilot;
  */
 public class PIDController {
 
-    final float targetValue;
-    final float baseSpeed;
-    final float Kp = (float) 8;
-    final float Ki = (float) 0.00005;
-    final float Kd = (float) 0.09;
-    DifferentialPilot DP;
-    LightController lightSensor;
-    float leftSpeed;
-    float rightSpeed;
-    float lightValue;
-    float errorSignal;
-    float integral = 0;
-    float lastError = 0;
-    float derivative = 0;
+    private float leftSpeed;
+    private float rightSpeed;
 
-    public PIDController(float targetValue, LightController lightSensor, float baseSpeed, DifferentialPilot DP) {
+    private LightController lightSensor;
+
+    private final float targetValue;
+    private final float baseSpeed;
+
+    private float integral;
+    private float lastError;
+
+    public PIDController(float targetValue, LightController lightSensor, float baseSpeed) {
         this.targetValue = targetValue;
         this.lightSensor = lightSensor;
         this.baseSpeed = baseSpeed;
-        this.DP = DP;
     }
 
     public void run() {
-        this.lightValue = this.lightSensor.getLightValue();
-        this.errorSignal = this.targetValue - this.lightValue;
+        float lightValue = this.lightSensor.getLightValue();
+        float errorSignal = this.targetValue - lightValue;
 
         this.integral *= 0.98;
-        this.integral += this.errorSignal;
-        this.derivative = this.errorSignal - this.lastError;
-        this.lastError = this.errorSignal;
+        this.integral += errorSignal;
+        float derivative = errorSignal - this.lastError;
+        this.lastError = errorSignal;
 
-        this.leftSpeed = this.baseSpeed + (this.Kp * this.errorSignal) + (this.Ki * this.integral) + (this.Kd * this
-                .derivative);
-        this.rightSpeed = this.baseSpeed - (this.Kp * this.errorSignal) + (this.Ki * this.integral) + (this.Kd * this
-                .derivative);
+        float kd = 0.09f;
+        float ki = 0.00005f;
+        float kp = 8f;
+
+        this.leftSpeed = this.baseSpeed + (kp * errorSignal) + (ki * this.integral) + (kd * derivative);
+        this.rightSpeed = this.baseSpeed - (kp * errorSignal) + (ki * this.integral) + (kd * derivative);
+    }
+
+    public float getLeftSpeed() {
+        return this.leftSpeed;
+    }
+
+    public float getRightSpeed() {
+        return this.rightSpeed;
     }
 }

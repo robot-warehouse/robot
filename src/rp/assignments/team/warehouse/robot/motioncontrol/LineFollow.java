@@ -100,7 +100,7 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
     @Override
     public void run() {
         this.DP.setTravelSpeed(150);
-        PIDController pid = new PIDController(this.targetValue, this.light2, (float) this.DP.getTravelSpeed(), this.DP);
+        PIDController pid = new PIDController(this.targetValue, this.light2, (float) this.DP.getTravelSpeed());
         int currentAction = 0;
         this.instructionSet = this.path.getPathList();
         this.listIterate = this.instructionSet.listIterator();

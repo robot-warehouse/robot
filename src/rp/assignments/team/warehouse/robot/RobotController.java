@@ -79,19 +79,19 @@ public class RobotController {
                         this.robotMotionController.moveForwards();
                         break;
                     case LEFT:
-                        this.robotMotionController.turnLeft();
+                        this.robotMotionController.takeLeftExit();
                         this.robotMotionController.moveForwards();
                         break;
                     case RIGHT:
-                        this.robotMotionController.turnRight();
+                        this.robotMotionController.takeRightExit();
                         this.robotMotionController.moveForwards();
                         break;
                     case BACKWARDS:
-                        this.robotMotionController.turnAround();
+                        this.robotMotionController.takeRearExit();
                         this.robotMotionController.moveForwards();
                         break;
                     case STOP:
-                        this.robotMotionController.stop();
+                        this.robotMotionController.holdUp();
                         break;
                     case PICKUP:
                         this.robotInterface.pickUpAmountInLocation(this.currentPickCount);

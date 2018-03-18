@@ -29,6 +29,12 @@ public class LightController {
         this.lightSensor = new LightSensor(port);
     }
 
+    public int getLightValue() {
+        int realDistance = filter(this.lightSensor.getLightValue());
+        saveLight(realDistance);
+        return this.light;
+    }
+
     private void saveLight(int light) {
         this.filterToMax = light > 12;
         this.light = light;
@@ -54,11 +60,5 @@ public class LightController {
 
     private int getExtremeLight() {
         return this.filterToMax ? MAX_LIGHT : MIN_LIGHT;
-    }
-
-    public int getLightValue() {
-        int realDistance = filter(this.lightSensor.getLightValue());
-        saveLight(realDistance);
-        return this.light;
     }
 }
