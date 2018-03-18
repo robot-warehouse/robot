@@ -8,6 +8,7 @@ import rp.assignments.team.warehouse.robot.gui.IRobotInterface;
 import rp.assignments.team.warehouse.robot.gui.RobotInterface;
 import rp.assignments.team.warehouse.robot.motioncontrol.IRobotMotionController;
 import rp.assignments.team.warehouse.robot.motioncontrol.RobotMotionController;
+import rp.assignments.team.warehouse.shared.Facing;
 import rp.assignments.team.warehouse.shared.Instruction;
 
 public class RobotController {
@@ -29,6 +30,12 @@ public class RobotController {
 
     /** Queue of instructions sent from the server */
     private Queue<Instruction> instructionQueue;
+
+    /** The current location of the robot in the grid */
+    private Location currentLocation;
+
+    /** The current direction the robot is facing */
+    private Facing currentFacing;
 
     /** The current total weight of the items the robot is carrying */
     private int currentWeight;
@@ -74,6 +81,7 @@ public class RobotController {
             if (!this.instructionQueue.isEmpty()) {
                 Instruction instruction = (Instruction) this.instructionQueue.pop();
 
+                // TODO update location and facing and then send to server
                 switch (instruction) {
                     case FORWARDS:
                         this.robotMotionController.moveForwards();
