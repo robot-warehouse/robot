@@ -2,9 +2,9 @@ package rp.assignments.team.warehouse.robot.gui;
 
 public class Display {
 
-	boolean noSpaceAfter = false;
+	static boolean noSpaceAfter = false;
 
-	public void writeToScreen(String s) {
+	public static void writeToScreen(String s) {
 		if (s.length() >= 16) { // size of one row
 			String a = "";
 			int firstIndex = 0;
@@ -37,6 +37,9 @@ public class Display {
 			System.out.println(" " + s.substring(1) + " ");
 			}
 		} 
+		else {
+			System.out.println(" " + s + " ");
+		}
 	}
 
 }
