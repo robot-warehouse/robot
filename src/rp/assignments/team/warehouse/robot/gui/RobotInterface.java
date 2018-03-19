@@ -18,11 +18,11 @@ public class RobotInterface implements IRobotInterface {
 		while (currentlyPickedUp != amount) {
 
 			LCD.clear();
-			System.out.println("Pick up items");
-			System.out.println("Needed: " + amount);
-			System.out.println("Holding: " + currentlyPickedUp);
-			System.out.println("< - Drop off");
-			System.out.println("Pickup - >");
+			Display.writeToScreen("Pick up items");
+			Display.writeToScreen("Needed: " + amount);
+			Display.writeToScreen("Holding: " + currentlyPickedUp);
+			Display.writeToScreen("< - Drop off");
+			Display.writeToScreen("Pickup - >");
 
 			int theDelay = 10000; // Waits 10 seconds for user
 			TimerListener timerListener = new TimerListener() { // Plays 2 beeps
@@ -59,7 +59,7 @@ public class RobotInterface implements IRobotInterface {
 	public void dropOffAmountInLocation(int amount) {
 		int buttonID = -1;
 
-		System.out.println("Press ENTER button to drop off items");
+		Display.writeToScreen("Press ENTER button to drop off items");
 		while (buttonID != Button.ID_ENTER) {
 			buttonID = Button.waitForAnyPress();
 		}
