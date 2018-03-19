@@ -32,11 +32,18 @@ public class RobotInterface implements IRobotInterface {
 					Sound.twoBeeps();
 				}
 
-			};
+        assert amount >= 0;
 
-			Timer timer = new Timer(theDelay, timerListener);
+        int currentlyPickedUp = 0;
 
 			timer.start(); // Start timer
+        while (currentlyPickedUp != amount) {
+            LCD.clear();
+            display.writeToScreen("Pick up items");
+            display.writeToScreen("Needed: " + amount);
+            display.writeToScreen("Holding: " + currentlyPickedUp);
+            display.writeToScreen("< - Drop off");
+            display.writeToScreen("Pickup - >");
 
 			int buttonID = Button.waitForAnyPress();
 
