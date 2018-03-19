@@ -15,11 +15,11 @@ public class Display {
 				a += s.substring(firstIndex, endIndex);
 				if (a.length() >= 10) { // in case the other word will be long
 					if (noSpaceAfter) {
-						System.out.println(" "+ a.substring(1)+ " ") ;
+						System.out.println(" "+ a.substring(1)) ;
 						a = "";
 					} else if (!noSpaceAfter) {
 						noSpaceAfter = true;
-						System.out.println(" " + a + " ");
+						System.out.println(" " + a);
 						a = "";
 					}
 				}
@@ -32,13 +32,13 @@ public class Display {
 				System.out.println(last);
 			else{
 			if(!a.equals(""))
-			System.out.println(" "+ a.substring(1) + " ");
+			System.out.println(" "+ a.substring(1));
 			if(!s.equals(""))
-			System.out.println(" " + s.substring(1) + " ");
+			System.out.println(" " + s.substring(1));
 			}
 		} 
 		else {
-			System.out.println(" " + s + " ");
+			System.out.println(" " + s);
 		}
 	}
 
