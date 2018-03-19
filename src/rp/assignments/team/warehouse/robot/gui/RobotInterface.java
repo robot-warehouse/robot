@@ -4,6 +4,8 @@ import lejos.nxt.Button;
 import lejos.nxt.LCD;
 
 public class RobotInterface implements IRobotInterface {
+	
+	Display display = new Display();
 
     @Override
     public void pickUpAmountInLocation(int amount) {
@@ -14,11 +16,11 @@ public class RobotInterface implements IRobotInterface {
 
         while (currentlyPickedUp != amount) {
             LCD.clear();
-            System.out.println("Pick up items");
-            System.out.println("Needed: " + amount);
-            System.out.println("Holding: " + currentlyPickedUp);
-            System.out.println("< - Drop off");
-            System.out.println("Pickup - >");
+            display.writeToScreen("Pick up items");
+            display.writeToScreen("Needed: " + amount);
+            display.writeToScreen("Holding: " + currentlyPickedUp);
+            display.writeToScreen("< - Drop off");
+            display.writeToScreen("Pickup - >");
 
             int buttonID = Button.waitForAnyPress();
 
@@ -39,7 +41,7 @@ public class RobotInterface implements IRobotInterface {
     public void dropOffAmountInLocation(int amount) {
         int buttonID = -1;
 
-        System.out.println("Press ENTER button to drop off items");
+        display.writeToScreen("Press ENTER button to drop off items");
         while (buttonID != Button.ID_ENTER) {
             buttonID = Button.waitForAnyPress();
         }
