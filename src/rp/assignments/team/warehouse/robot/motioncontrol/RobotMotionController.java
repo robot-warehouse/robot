@@ -11,11 +11,13 @@ import rp.assignments.team.warehouse.robot.RobotController;
 
 public class RobotMotionController implements IRobotMotionController {
 
-    private final int targetValue = 34; //NAMELESS 35; //TRIHARD 35; //JOHNCENA 34;
-    private final int junctionValue = 37; //NAMELESS 34; //TRIHARD 34; //JOHNCENA 45;
+    private final int TARGET_VALUE = 34; //NAMELESS 35; //TRIHARD 35; //JOHNCENA 34;
+    private final int JUNCTION_VALUE = 37; //NAMELESS 34; //TRIHARD 34; //JOHNCENA 45;
+    private final int DISTANCE_TO_JUNCTION = 8;
+
+
     private DifferentialPilot differentialPilot;
     private LightController lightSensorLeft;
-    private LightController lightSensorMiddle;
     private LightController lightSensorRight;
     private PIDController pidController;
 
@@ -23,11 +25,11 @@ public class RobotMotionController implements IRobotMotionController {
         DifferentialDriveRobot robot = new DifferentialDriveRobot(RobotConfiguration.ROBOT_CONFIG);
         this.differentialPilot = robot.getDifferentialPilot();
         this.lightSensorLeft = new LightController(SensorPort.S1);
-        this.lightSensorMiddle = new LightController(SensorPort.S2);
         this.lightSensorRight = new LightController(SensorPort.S4);
+
+        LightController lightSensorMiddle = new LightController(SensorPort.S2);
         this.pidController = new PIDController(
-            this.targetValue,
-            this.lightSensorMiddle,
+            this.TARGET_VALUE, lightSensorMiddle,
             (float) this.differentialPilot.getTravelSpeed());
     }
 
@@ -45,18 +47,21 @@ public class RobotMotionController implements IRobotMotionController {
 
     @Override
     public void takeLeftExit() {
+        this.differentialPilot.travel(this.DISTANCE_TO_JUNCTION);
         this.differentialPilot.rotate(-90);
         moveForwards();
     }
 
     @Override
     public void takeRightExit() {
+        this.differentialPilot.travel(this.DISTANCE_TO_JUNCTION);
         this.differentialPilot.rotate(90);
         moveForwards();
     }
 
     @Override
     public void takeRearExit() {
+        this.differentialPilot.travel(this.DISTANCE_TO_JUNCTION);
         this.differentialPilot.rotate(180);
         moveForwards();
     }
@@ -72,7 +77,7 @@ public class RobotMotionController implements IRobotMotionController {
      * @return True if a junction has been detected
      */
     private boolean junctionReached() {
-        return this.lightSensorLeft.getLightValue() <= this.junctionValue
-            && this.lightSensorRight.getLightValue() <= this.junctionValue;
+        return this.lightSensorLeft.getLightValue() <= this.JUNCTION_VALUE
+            && this.lightSensorRight.getLightValue() <= this.JUNCTION_VALUE;
     }
 }
