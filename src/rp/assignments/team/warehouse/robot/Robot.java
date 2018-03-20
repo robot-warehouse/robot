@@ -5,6 +5,7 @@ import lejos.nxt.LCD;
 import lejos.nxt.comm.Bluetooth;
 
 import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsManager;
+import rp.assignments.team.warehouse.robot.gui.Display;
 
 public class Robot {
 
@@ -21,13 +22,13 @@ public class Robot {
         while (continueRunning) {
             LCD.clear();
 
-            System.out.println("Hello, I am " + Bluetooth.getFriendlyName());
+            Display.writeToScreen("Hello, I am " + Bluetooth.getFriendlyName());
 
             RobotController robotController = new RobotController();
 
-            System.out.println("Connecting to server...");
+            Display.writeToScreen("Connecting to server...");
             RobotCommunicationsManager communicationsManager = new RobotCommunicationsManager(robotController);
-            System.out.println("Connected to server!");
+            Display.writeToScreen("Connected to server!");
 
             try {
                 Thread.sleep(1000);
@@ -36,8 +37,8 @@ public class Robot {
             robotController.setCommunicationsManager(communicationsManager);
             robotController.startRunningRobot();
 
-            System.out.println("Server has been disconnect");
-            System.out.println("Press ENTER button to restart, ESCAPE button to quit");
+            Display.writeToScreen("Server has been disconnect");
+            Display.writeToScreen("Press ENTER button to restart, ESCAPE button to quit");
 
             Button.waitForAnyPress();
             if (Button.ESCAPE.isDown()) {

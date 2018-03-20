@@ -2,44 +2,48 @@ package rp.assignments.team.warehouse.robot.gui;
 
 public class Display {
 
-	static boolean noSpaceAfter = false;
+    private static boolean noSpaceAfter = false;
 
-	public static void writeToScreen(String s) {
-		if (s.length() >= 16) { // size of one row
-			String a = "";
-			int firstIndex = 0;
-			int endIndex = s.indexOf(" ");
+    public static void writeToScreen(String message) {
+        if (message.length() >= 16) { // size of one row
+            String formattedMessage = "";
+            int firstIndex = 0;
+            int endIndex = message.indexOf(" ");
 
-			while (endIndex != -1) { // once there is no spaces index is -1
+            while (endIndex != -1) { // once there is no spaces index is -1
 
-				a += s.substring(firstIndex, endIndex);
-				if (a.length() >= 10) { // in case the other word will be long
-					if (noSpaceAfter) {
-						System.out.println(" "+ a.substring(1)) ;
-						a = "";
-					} else if (!noSpaceAfter) {
-						noSpaceAfter = true;
-						System.out.println(" " + a);
-						a = "";
-					}
-				}
-				s = s.substring(endIndex);
-				endIndex = s.indexOf(" ", s.indexOf(" ") + 1);
-			}
-			
-			String last =a +s; // case for last 2 words because after index is -1, loop ends and goes to here so otherwise two words would be printed separately
-			if(last.length() <=15)
-				System.out.println(last);
-			else{
-			if(!a.equals(""))
-			System.out.println(" "+ a.substring(1));
-			if(!s.equals(""))
-			System.out.println(" " + s.substring(1));
-			}
-		} 
-		else {
-			System.out.println(" " + s);
-		}
-	}
+                formattedMessage += message.substring(firstIndex, endIndex);
+                if (formattedMessage.length() >= 10) { // in case the other word will be long
+                    if (noSpaceAfter) {
+                        System.out.println(" " + formattedMessage.substring(1));
+                        formattedMessage = "";
+                    } else if (!noSpaceAfter) {
+                        noSpaceAfter = true;
+                        System.out.println(" " + formattedMessage);
+                        formattedMessage = "";
+                    }
+                }
+                message = message.substring(endIndex);
+                endIndex = message.indexOf(" ", message.indexOf(" ") + 1);
+            }
+
+            // case for last 2 words because after index is -1, loop ends and goes to here so otherwise two words
+            // would be printed separately
+            String last = formattedMessage + message;
+            if (last.length() <= 15) {
+                System.out.println(last);
+            } else {
+                if (!formattedMessage.equals("")) {
+                    System.out.println(" " + formattedMessage.substring(1));
+                }
+
+                if (!message.equals("")) {
+                    System.out.println(" " + message.substring(1));
+                }
+            }
+        } else {
+            System.out.println(" " + message);
+        }
+    }
 
 }

@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import rp.assignments.team.warehouse.robot.Location;
+import rp.assignments.team.warehouse.robot.gui.Display;
 import rp.assignments.team.warehouse.shared.Facing;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
@@ -23,12 +24,12 @@ public class RobotSender {
             this.toServer.writeUTF(Integer.toString(location.getY()));
             this.toServer.flush();
 
-            System.out.println("Sent (" + location.getX() + "," + location.getY() + ")");
+            Display.writeToScreen("Sent (" + location.getX() + "," + location.getY() + ")");
         } catch (IOException e) {
-            System.out.println("Something went wrong with the server");
+            Display.writeToScreen("Something went wrong with the server");
             e.printStackTrace();
         } catch (Exception e) {
-            System.out.println("General exception");
+            Display.writeToScreen("General exception");
         }
     }
 
@@ -37,7 +38,7 @@ public class RobotSender {
             this.toServer.writeUTF(Command.FINISHED_JOB.toString());
             this.toServer.flush();
         } catch (IOException e) {
-            System.out.println("Something went wrong with the server");
+            Display.writeToScreen("Something went wrong with the server");
         }
     }
 
@@ -47,7 +48,7 @@ public class RobotSender {
             this.toServer.writeUTF(facing.toString());
             this.toServer.flush();
         } catch (IOException e) {
-            System.out.println("Something went wrong with the server");
+            Display.writeToScreen("Something went wrong with the server");
         }
     }
 
