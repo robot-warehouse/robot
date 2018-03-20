@@ -25,7 +25,13 @@ public class RobotInterface implements IRobotInterface {
             Display.writeToScreen("Pickup - >");
 
             int theDelay = 10000;                               // Waits 10 seconds for user
-            TimerListener timerListener = Sound::twoBeeps;      // Plays 2 beeps
+            TimerListener timerListener = new TimerListener() {
+				
+				@Override
+				public void timedOut() {
+					Sound.twoBeeps();
+				}
+			};      // Plays 2 beeps
             Timer timer = new Timer(theDelay, timerListener);
             timer.start(); // Start timer
 
@@ -51,7 +57,13 @@ public class RobotInterface implements IRobotInterface {
         int buttonID = -1;
 
         int theDelay = 10000;                               // Waits 10 seconds for user
-        TimerListener timerListener = Sound::twoBeeps;      // Plays 2 beeps
+        TimerListener timerListener = new TimerListener() {
+			
+			@Override
+			public void timedOut() {
+				Sound.twoBeeps();
+			}
+		};       // Plays 2 beeps
         Timer timer = new Timer(theDelay, timerListener);
 
         Display.writeToScreen("Press ENTER button to drop off items");

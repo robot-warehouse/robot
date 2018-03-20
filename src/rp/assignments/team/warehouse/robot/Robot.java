@@ -3,7 +3,7 @@ package rp.assignments.team.warehouse.robot;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.comm.Bluetooth;
-
+import lejos.nxt.comm.RConsole;
 import rp.assignments.team.warehouse.robot.communications.RobotCommunicationsManager;
 import rp.assignments.team.warehouse.robot.gui.Display;
 
@@ -18,10 +18,8 @@ public class Robot {
      */
     public static void main(String[] args) {
         boolean continueRunning = true;
-
         while (continueRunning) {
             LCD.clear();
-
             Display.writeToScreen("Hello, I am " + Bluetooth.getFriendlyName());
 
             RobotController robotController = new RobotController();

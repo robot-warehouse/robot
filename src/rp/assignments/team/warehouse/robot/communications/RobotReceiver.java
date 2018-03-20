@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rp.assignments.team.warehouse.robot.RobotController;
+import rp.assignments.team.warehouse.shared.Facing;
 import rp.assignments.team.warehouse.shared.Instruction;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
@@ -55,6 +56,18 @@ public class RobotReceiver extends Thread {
                         System.out.println("Disconnected");
                         this.connected = false;
                         break;
+                    case SEND_POSITION:
+                    	int x = Integer.parseInt(fromServer.readUTF());
+                    	int y = Integer.parseInt(fromServer.readUTF());
+                    	System.out.println("Received " + x + ", " + y);
+                    	controller.setPosition(x, y);
+                    	break;
+                    case SEND_FACING:
+                    	
+                    	Facing facing = Facing.strToFacing(fromServer.readUTF());
+                    	System.out.println("Recevied " + facing);
+                    	controller.setFacing(facing);
+                    	break;
                     default:
                         System.out.println("Unrecognised command");
                         break;
