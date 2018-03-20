@@ -29,6 +29,7 @@ public class Display {
 
             // case for last 2 words because after index is -1, loop ends and goes to here so otherwise two words
             // would be printed separately
+            noSpaceAfter = false;
             String last = formattedMessage + message;
             if (last.length() <= 15) {
                 System.out.println(last);
