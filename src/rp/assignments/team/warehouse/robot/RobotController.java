@@ -129,6 +129,8 @@ public class RobotController {
 			}
 
 			if (!this.instructionQueue.isEmpty()) {
+				communicationsManager.sendLocation(currentLocation);
+				
 				Instruction instruction = (Instruction) this.instructionQueue.pop();
 				System.out.println("New instruction popped");
 				switch (instruction) {
@@ -166,8 +168,10 @@ public class RobotController {
 
 				}
 				
-
-				this.communicationsManager.sendLocation(this.currentLocation);
+				if(instructionQueue.isEmpty()) {
+					this.communicationsManager.sendLocation(this.currentLocation);
+				}
+			
 				this.communicationsManager.sendFacing(this.currentFacing);
 				Delay.msDelay(100);
 				
