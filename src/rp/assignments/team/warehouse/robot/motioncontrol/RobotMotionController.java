@@ -14,7 +14,7 @@ public class RobotMotionController implements IRobotMotionController {
 
 	private final int TARGET_VALUE = 34; // NAMELESS 35; //TRIHARD 35; //JOHNCENA 34;
 	private final int JUNCTION_VALUE = 37; // NAMELESS 34; //TRIHARD 34; //JOHNCENA 45;
-	private final int DISTANCE_TO_JUNCTION = 8;
+	private final int DISTANCE_TO_JUNCTION = 6;
 
 	private DifferentialPilot differentialPilot;
 	private LightController lightSensorLeft;
@@ -27,7 +27,7 @@ public class RobotMotionController implements IRobotMotionController {
 		this.differentialPilot = robot.getDifferentialPilot();
 		this.lightSensorLeft = new LightController(SensorPort.S1);
 		this.lightSensorRight = new LightController(SensorPort.S4);
-		differentialPilot.setTravelSpeed(300);
+		differentialPilot.setTravelSpeed(150);
 		lightSensorMiddle = new LightController(SensorPort.S2);
 		this.pidController = new PIDController(this.TARGET_VALUE, lightSensorMiddle,
 				(float) this.differentialPilot.getTravelSpeed());
@@ -42,7 +42,7 @@ public class RobotMotionController implements IRobotMotionController {
 				Motor.A.setSpeed(this.pidController.getRightSpeed());
 				Motor.B.setSpeed(this.pidController.getLeftSpeed());
 			}
-
+			this.differentialPilot.travel(this.DISTANCE_TO_JUNCTION);
 			this.differentialPilot.stop();
 		} catch (NullPointerException e) {
 			System.out.println("Null in move forwards");
@@ -53,8 +53,9 @@ public class RobotMotionController implements IRobotMotionController {
 	@Override
 	public void takeLeftExit() {
 		try {
-			this.differentialPilot.travel(this.DISTANCE_TO_JUNCTION);
-			this.differentialPilot.rotate(-90);
+			
+			this.differentialPilot.rotate(-79);
+			Delay.msDelay(10);
 			moveForwards();
 		} catch (NullPointerException e) {
 			System.out.println("Null in move left");
@@ -65,8 +66,9 @@ public class RobotMotionController implements IRobotMotionController {
 	@Override
 	public void takeRightExit() {
 		try {
-			this.differentialPilot.travel(this.DISTANCE_TO_JUNCTION);
-			this.differentialPilot.rotate(90);
+		
+			this.differentialPilot.rotate(79);
+			Delay.msDelay(10);
 			moveForwards();
 		} catch (NullPointerException e) {
 			System.out.println("Null in move right");
@@ -76,8 +78,11 @@ public class RobotMotionController implements IRobotMotionController {
 	@Override
 	public void takeRearExit() {
 		try {
-			this.differentialPilot.travel(this.DISTANCE_TO_JUNCTION);
-			this.differentialPilot.rotate(180);
+	
+			this.differentialPilot.rotate(79);
+			Delay.msDelay(10);
+			this.differentialPilot.rotate(79);
+			Delay.msDelay(10);
 			moveForwards();
 		} catch (NullPointerException e) {
 			System.out.println("Null in move back");
