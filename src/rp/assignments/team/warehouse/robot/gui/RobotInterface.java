@@ -26,7 +26,6 @@ public class RobotInterface implements IRobotInterface {
 
             int theDelay = 10000;                               // Waits 10 seconds for user
             TimerListener timerListener = new TimerListener() {
-				
 				@Override
 				public void timedOut() {
 					Sound.twoBeeps();
@@ -50,6 +49,7 @@ public class RobotInterface implements IRobotInterface {
                     break;
             }
         }
+        Button.waitForAnyPress();
     }
 
     @Override

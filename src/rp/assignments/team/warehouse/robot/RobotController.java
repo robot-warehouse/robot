@@ -167,12 +167,12 @@ public class RobotController {
 					break;
 
 				}
-				
+				this.communicationsManager.sendFacing(this.currentFacing);
 				if(instructionQueue.isEmpty()) {
 					this.communicationsManager.sendLocation(this.currentLocation);
 				}
 			
-				this.communicationsManager.sendFacing(this.currentFacing);
+				
 				Delay.msDelay(100);
 				
 			}

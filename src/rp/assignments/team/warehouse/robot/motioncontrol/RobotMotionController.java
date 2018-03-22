@@ -27,7 +27,7 @@ public class RobotMotionController implements IRobotMotionController {
 		this.differentialPilot = robot.getDifferentialPilot();
 		this.lightSensorLeft = new LightController(SensorPort.S1);
 		this.lightSensorRight = new LightController(SensorPort.S4);
-		differentialPilot.setTravelSpeed(150);
+		differentialPilot.setTravelSpeed(250);
 		lightSensorMiddle = new LightController(SensorPort.S2);
 		this.pidController = new PIDController(this.TARGET_VALUE, lightSensorMiddle,
 				(float) this.differentialPilot.getTravelSpeed());
@@ -54,7 +54,7 @@ public class RobotMotionController implements IRobotMotionController {
 	public void takeLeftExit() {
 		try {
 			
-			this.differentialPilot.rotate(-79);
+			this.differentialPilot.rotate(-70);
 			Delay.msDelay(10);
 			moveForwards();
 		} catch (NullPointerException e) {
@@ -67,7 +67,7 @@ public class RobotMotionController implements IRobotMotionController {
 	public void takeRightExit() {
 		try {
 		
-			this.differentialPilot.rotate(79);
+			this.differentialPilot.rotate(90);
 			Delay.msDelay(10);
 			moveForwards();
 		} catch (NullPointerException e) {
@@ -79,9 +79,9 @@ public class RobotMotionController implements IRobotMotionController {
 	public void takeRearExit() {
 		try {
 	
-			this.differentialPilot.rotate(79);
+			this.differentialPilot.rotate(90);
 			Delay.msDelay(10);
-			this.differentialPilot.rotate(79);
+			this.differentialPilot.rotate(90);
 			Delay.msDelay(10);
 			moveForwards();
 		} catch (NullPointerException e) {
